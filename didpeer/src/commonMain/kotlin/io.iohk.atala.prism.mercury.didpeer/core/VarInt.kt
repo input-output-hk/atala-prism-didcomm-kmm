@@ -20,8 +20,9 @@ object VarInt {
         var i = 0
         var b = 0
         byteBuffer.resetForRead()
-        while (byteBuffer.remaining() > 0
-            && byteBuffer.readInt().also { b = it } and 0x80 != 0
+        while (
+            byteBuffer.remaining() > 0 &&
+            byteBuffer.readInt().also { b = it } and 0x80 != 0
         ) {
             value = value or (b and 0x7F shl i)
             i += 7

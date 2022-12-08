@@ -16,11 +16,10 @@ import kotlin.jvm.JvmName
  * @return true if [peerDID] matches spec, otherwise false
  */
 fun isPeerDID(peerDID: String): Boolean {
-    val regex =
-        (
-                "^did:peer:(([0](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))" +
-                        "|(2((.[AEVID](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))+(.(S)[0-9a-zA-Z=]*)?)))$"
-                ).toRegex()
+    val regex = (
+        "^did:peer:(([0](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))" +
+            "|(2((.[AEVID](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))+(.(S)[0-9a-zA-Z=]*)?)))$"
+        ).toRegex()
     return regex.matches(peerDID)
 }
 

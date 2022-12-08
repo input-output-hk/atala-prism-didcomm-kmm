@@ -20,7 +20,6 @@ import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypePeerDID
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 
 private val verTypeToField = mapOf(
     VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019 to PublicKeyField.BASE58,
