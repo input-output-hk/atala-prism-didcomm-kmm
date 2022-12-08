@@ -1,11 +1,9 @@
 package io.iohk.atala.prism.mercury.didpeer.core
 
-import com.ditchoom.buffer.PlatformBuffer
-import com.ditchoom.buffer.allocate
-import com.ditchoom.buffer.wrap
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypePeerDID
+import okio.Buffer
 
 enum class Codec(val prefix: Int) {
     X25519(0xEC),
@@ -14,15 +12,16 @@ enum class Codec(val prefix: Int) {
 
 fun toMulticodec(value: ByteArray, keyType: VerificationMethodTypePeerDID): ByteArray {
     val prefix = getCodec(keyType).prefix
-    val byteBuffer = PlatformBuffer.allocate(2)
+    val byteBuffer = Buffer()
     VarInt.writeVarInt(prefix, byteBuffer)
-    return byteBuffer.readByteArray(byteBuffer.position()) + value
+    return byteBuffer.array().plus(value)
 }
 
 fun fromMulticodec(value: ByteArray): Pair<Codec, ByteArray> {
-    val prefix = VarInt.readVarint(PlatformBuffer.wrap(value))
+    Buffer.UnsafeCursor
+    val prefix = VarInt.readVarInt(Buffer.wrap(value))
     val codec = getCodec(prefix)
-    val byteBuffer = PlatformBuffer.allocate(2)
+    val byteBuffer = ByteBufferNativeType.allocate(2)
     VarInt.writeVarInt(prefix, byteBuffer)
     return Pair(codec, value.drop(byteBuffer.position()).toByteArray())
 }

@@ -101,7 +101,7 @@ kotlin {
             dependencies {
                 implementation("io.iohk.atala.prism:multibase:1.0.0-alpha")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("com.ditchoom:buffer:1.0.96")
+                implementation("com.squareup.okio:okio:3.2.0")
             }
         }
         val commonTest by getting {

@@ -1,29 +1,22 @@
 package io.iohk.atala.prism.mercury.didpeer.core
 
-import com.ditchoom.buffer.PlatformBuffer
+import okio.Buffer
 
 object VarInt {
-    fun writeVarInt(value: Int, byteBuffer: PlatformBuffer) {
+    fun writeVarInt(value: Int, byteBuffer: Buffer) {
         var value = value
-        byteBuffer.resetForWrite()
         while ((value and -0x80).toLong() != 0L) {
-            byteBuffer.write((value and 0x7F or 0x80).toByte())
-            // byteBuffer.put((value and 0x7F or 0x80).toByte())
+            byteBuffer.writeByte(value and 0x7F or 0x80)
             value = value ushr 7
         }
-        byteBuffer.write((value and 0x7F).toByte())
-        // byteBuffer.put((value and 0x7F).toByte())
+        byteBuffer.writeByte(value and 0x7F)
     }
 
-    fun readVarint(byteBuffer: PlatformBuffer): Int {
+    fun readVarInt(byteBuffer: Buffer): Int {
         var value = 0
         var i = 0
         var b = 0
-        byteBuffer.resetForRead()
-        while (
-            byteBuffer.remaining() > 0 &&
-            byteBuffer.readInt().also { b = it } and 0x80 != 0
-        ) {
+        while (byteBuffer.size > 0 && byteBuffer.readByte().toInt().also { b = it } and 0x80 != 0) {
             value = value or (b and 0x7F shl i)
             i += 7
             if (i > 35) {
