@@ -14,16 +14,15 @@ fun toMulticodec(value: ByteArray, keyType: VerificationMethodTypePeerDID): Byte
     val prefix = getCodec(keyType).prefix
     val byteBuffer = Buffer()
     VarInt.writeVarInt(prefix, byteBuffer)
-    return byteBuffer.array().plus(value)
+    return byteBuffer.readByteArray().plus(value)
 }
 
 fun fromMulticodec(value: ByteArray): Pair<Codec, ByteArray> {
-    Buffer.UnsafeCursor
-    val prefix = VarInt.readVarInt(Buffer.wrap(value))
+    val prefix = VarInt.readVarInt(Buffer().write(value))
     val codec = getCodec(prefix)
-    val byteBuffer = ByteBufferNativeType.allocate(2)
+    val byteBuffer = Buffer()
     VarInt.writeVarInt(prefix, byteBuffer)
-    return Pair(codec, value.drop(byteBuffer.position()).toByteArray())
+    return Pair(codec, value.drop(2).toByteArray())
 }
 
 private fun getCodec(keyType: VerificationMethodTypePeerDID) =

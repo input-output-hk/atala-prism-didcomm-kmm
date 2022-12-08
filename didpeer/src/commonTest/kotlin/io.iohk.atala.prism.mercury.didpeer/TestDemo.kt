@@ -1,6 +1,6 @@
 package io.iohk.atala.prism.mercury.didpeer
 
-import io.iohk.atala.prism.mercury.didpeer.core.VarInt2
+import io.iohk.atala.prism.mercury.didpeer.core.VarInt
 import okio.Buffer
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -10,8 +10,8 @@ class TestDemo {
     @Test
     fun moussaTest() {
         val buffer = Buffer()
-        VarInt2.writeVarInt(500, buffer)
-        val result = VarInt2.readVarInt(buffer)
+        VarInt.writeVarInt(500, buffer)
+        val result = VarInt.readVarInt(buffer)
         assertEquals(500, result)
     }
 

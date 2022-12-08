@@ -2,6 +2,7 @@ package io.iohk.atala.prism.mercury.didpeer.core
 
 import io.iohk.atala.prism.apollo.base64.base64UrlDecodedBytes
 import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
+import io.iohk.atala.prism.apollo.base64.base64UrlPadDecodedBytes
 import io.iohk.atala.prism.mercury.didpeer.VerificationMaterialPeerDID
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAuthentication
@@ -37,5 +38,11 @@ fun fromJwk(verMaterial: VerificationMaterialPeerDID<out VerificationMethodTypeP
 
     val value = jwkDict["x"].toString()
     // Base64.decodeBase64(value) // this line in JVM handle both Base64 Standard & Base64 URL
-    return value.base64UrlDecodedBytes
+    // The following if condition is a workaround for a bug in Apollo Base64URLPad decoding which will be
+    // fixed in the next release
+    var decoded = value.base64UrlPadDecodedBytes
+    if (decoded.isNotEmpty() && decoded.last().toInt() == 0) {
+        decoded = decoded.dropLast(1).toByteArray()
+    }
+    return decoded
 }

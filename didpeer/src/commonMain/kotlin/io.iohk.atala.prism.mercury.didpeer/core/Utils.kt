@@ -8,6 +8,9 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 fun Any?.toJsonElement(): JsonElement {
     return when (this) {
@@ -33,12 +36,59 @@ fun toJson(value: Any?): String {
     // GsonBuilder().create().toJson(value)
 }
 
+private fun extractFromJsonObject(jsonObject: JsonObject): Map<String, Any> {
+    val currentMap = mutableMapOf<String, Any>()
+    jsonObject.forEach {
+        if (it.value is JsonPrimitive) {
+            if (it.value.jsonPrimitive.isString) {
+                currentMap[it.key] = it.value.jsonPrimitive.content
+            } else {
+                currentMap[it.key] = it.value
+            }
+        } else if (it.value is JsonArray) {
+            val localArray = mutableListOf<String>()
+            for (arrayJsonElement in it.value.jsonArray) {
+                if (arrayJsonElement.jsonPrimitive.isString) {
+                    localArray.add(arrayJsonElement.jsonPrimitive.content)
+                } else {
+                    localArray.add(arrayJsonElement.jsonPrimitive.toString())
+                }
+            }
+            currentMap[it.key] = localArray
+        } else {
+            throw Exception("")
+        }
+    }
+    return currentMap
+}
+
+/**
+ * I'm expecting the value to be a JSON array
+ */
 fun fromJsonToList(value: String): List<Map<String, Any>> {
-    return Json.decodeFromString<List<Map<String, Any>>>(value)
+    val list: MutableList<Map<String, Any>> = mutableListOf()
+    val element = Json.parseToJsonElement(value)
+
+    if (element is JsonArray) {
+        for (jsonElement in element.jsonArray) {
+            list.add(extractFromJsonObject(jsonElement.jsonObject))
+        }
+    } else if (element is JsonObject) {
+        list.add(extractFromJsonObject(element.jsonObject))
+    } else {
+        throw Exception("")
+    }
+    return list
     // return GsonBuilder().create().fromJson(value, object : TypeToken<List<Map<String, Any>>>() {}.type)
 }
 
 fun fromJsonToMap(value: String): Map<String, Any> {
-    return Json.decodeFromString<Map<String, Any>>(value)
+    val element = Json.parseToJsonElement(value)
+
+    if (element is JsonObject) {
+        return extractFromJsonObject(element)
+    } else {
+        throw Exception("")
+    }
     // return GsonBuilder().create().fromJson(value, object : TypeToken<Map<String, Any>>() {}.type)
 }
