@@ -17,9 +17,7 @@ import io.iohk.atala.prism.mercury.didpeer.VerificationMethodPeerDID
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.mercury.didpeer.VerificationMethodTypePeerDID
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.*
 
 private val verTypeToField = mapOf(
     VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019 to PublicKeyField.BASE58,
@@ -40,7 +38,7 @@ private val verTypeToFormat = mapOf(
 )
 
 internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
-    val did = jsonObject["id"]?.toString()
+    val did = jsonObject["id"]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'id' field")
     val authentication = jsonObject["authentication"]
         ?.jsonArray
@@ -116,7 +114,7 @@ internal fun serviceFromJson(jsonObject: JsonObject): Service {
 }
 
 private fun getVerMethodType(jsonObject: JsonObject): VerificationMethodTypePeerDID {
-    val type = jsonObject["type"]?.toString()
+    val type = (jsonObject["type"] as JsonPrimitive)?.contentOrNull
         ?: throw IllegalArgumentException("No 'type' field in method $jsonObject")
 
     return when (type) {
