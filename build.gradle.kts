@@ -42,7 +42,7 @@ allprojects {
         repositories {
             maven {
                 this.name = "GitHubPackages"
-                this.url = uri("https://maven.pkg.github.com/input-output-hk/atala-prism-apollo")
+                this.url = uri("https://maven.pkg.github.com/input-output-hk/atala-prism-mercury")
                 credentials {
                     this.username = System.getenv("ATALA_GITHUB_ACTOR")
                     this.password = System.getenv("ATALA_GITHUB_TOKEN")
