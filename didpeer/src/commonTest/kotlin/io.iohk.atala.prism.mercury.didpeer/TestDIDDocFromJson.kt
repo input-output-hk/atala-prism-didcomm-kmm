@@ -1,5 +1,10 @@
 package io.iohk.atala.prism.mercury.didpeer
 
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonPrimitive
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -30,13 +35,18 @@ class TestDIDDocFromJson {
 
             val auth = didDoc.authentication[0]
             val expectedAuth = (fromJson(testData.didDoc)["authentication"] as List<Map<String, Any>>)[0]
-            assertEquals(expectedAuth["id"], auth.id)
+            assertEquals((expectedAuth["id"] as JsonPrimitive).content, auth.id)
             assertEquals(PEER_DID_NUMALGO_0, auth.controller)
             assertEquals(testData.expectedFormat, auth.verMaterial.format)
             assertEquals(testData.expectedAuthType, auth.verMaterial.type)
-            assertEquals(expectedAuth[testData.expectedField.value], auth.verMaterial.value)
 
-            assertEquals(listOf(expectedAuth["id"]), didDoc.authenticationKids)
+            if (testData.expectedField.value == PublicKeyField.JWK.value) {
+                assertEquals(expectedAuth[testData.expectedField.value] as JsonObject, auth.verMaterial.value)
+            } else {
+                assertEquals((expectedAuth[testData.expectedField.value] as JsonPrimitive).content, auth.verMaterial.value)
+            }
+
+            assertEquals(listOf((expectedAuth["id"] as JsonPrimitive).content), didDoc.authenticationKids)
             assertTrue(didDoc.agreementKids.isEmpty())
         }
     }
@@ -55,39 +65,66 @@ class TestDIDDocFromJson {
 
             val auth1 = didDoc.authentication[0]
             val expectedAuth1 = (fromJson(testData.didDoc)["authentication"] as List<Map<String, Any>>)[0]
-            assertEquals(expectedAuth1["id"], auth1.id)
+            assertEquals((expectedAuth1["id"] as JsonPrimitive).content, auth1.id)
             assertEquals(PEER_DID_NUMALGO_2, auth1.controller)
             assertEquals(testData.expectedFormat, auth1.verMaterial.format)
             assertEquals(testData.expectedAuthType, auth1.verMaterial.type)
-            assertEquals(expectedAuth1[testData.expectedField.value], auth1.verMaterial.value)
+
+            if (testData.expectedField.value == PublicKeyField.JWK.value) {
+                assertEquals(expectedAuth1[testData.expectedField.value] as JsonObject, auth1.verMaterial.value)
+            } else {
+                assertEquals((expectedAuth1[testData.expectedField.value] as JsonPrimitive).content, auth1.verMaterial.value)
+            }
 
             val auth2 = didDoc.authentication[1]
             val expectedAuth2 = (fromJson(testData.didDoc)["authentication"] as List<Map<String, Any>>)[1]
-            assertEquals(expectedAuth2["id"], auth2.id)
+            assertEquals((expectedAuth2["id"] as JsonPrimitive).content, auth2.id)
             assertEquals(PEER_DID_NUMALGO_2, auth2.controller)
             assertEquals(testData.expectedFormat, auth2.verMaterial.format)
             assertEquals(testData.expectedAuthType, auth2.verMaterial.type)
-            assertEquals(expectedAuth2[testData.expectedField.value], auth2.verMaterial.value)
+
+            if (testData.expectedField.value == PublicKeyField.JWK.value) {
+                assertEquals((expectedAuth2[testData.expectedField.value] as JsonObject), auth2.verMaterial.value)
+            } else {
+                assertEquals((expectedAuth2[testData.expectedField.value] as JsonPrimitive).content, auth2.verMaterial.value)
+            }
 
             val agreem = didDoc.keyAgreement[0]
             val expectedAgreem = (fromJson(testData.didDoc)["keyAgreement"] as List<Map<String, Any>>)[0]
-            assertEquals(expectedAgreem["id"], agreem.id)
+            assertEquals((expectedAgreem["id"] as JsonPrimitive).content, agreem.id)
             assertEquals(PEER_DID_NUMALGO_2, agreem.controller)
             assertEquals(testData.expectedFormat, agreem.verMaterial.format)
-            assertEquals(testData.expectedAgreemType, agreem.verMaterial.type)
-            assertEquals(expectedAgreem[testData.expectedField.value], agreem.verMaterial.value)
+            assertEquals(testData.expectedAgreemType.value, agreem.verMaterial.type.value)
+
+            if (testData.expectedField.value == PublicKeyField.JWK.value) {
+                assertEquals((expectedAgreem[testData.expectedField.value] as JsonObject), agreem.verMaterial.value)
+            } else {
+                assertEquals((expectedAgreem[testData.expectedField.value] as JsonPrimitive).content, agreem.verMaterial.value)
+            }
 
             val service = didDoc.service!![0]
             val expectedService = (fromJson(testData.didDoc)["service"] as List<Map<String, Any>>)[0]
             assertTrue(service is DIDCommServicePeerDID)
-            assertEquals(expectedService["id"], service.id)
-            assertEquals(expectedService["serviceEndpoint"], service.serviceEndpoint)
-            assertEquals(expectedService["type"], service.type)
-            assertEquals(expectedService["routingKeys"], service.routingKeys)
-            assertEquals(expectedService["accept"], service.accept)
+            assertEquals((expectedService["id"] as JsonPrimitive).content, service.id)
+            assertEquals((expectedService["serviceEndpoint"] as JsonPrimitive).content, service.serviceEndpoint)
+            assertEquals((expectedService["type"] as JsonPrimitive).content, service.type)
 
-            assertEquals(listOf(expectedAuth1["id"], expectedAuth2["id"]), didDoc.authenticationKids)
-            assertEquals(listOf(expectedAgreem["id"]), didDoc.agreementKids)
+            val expectedServiceRoutingKeys = (expectedService["routingKeys"] as JsonArray).map {
+                it.jsonPrimitive.content
+            }
+            assertEquals(expectedServiceRoutingKeys, service.routingKeys)
+
+            val expectedServiceAccept = (expectedService["accept"] as JsonArray).map {
+                it.jsonPrimitive.content
+            }
+            assertEquals(expectedServiceAccept, service.accept)
+
+            assertEquals(listOf(
+                (expectedAuth1["id"] as JsonPrimitive).content,
+                (expectedAuth2["id"] as JsonPrimitive).content
+            ), didDoc.authenticationKids)
+
+            assertEquals(listOf((expectedAgreem["id"] as JsonPrimitive).content), didDoc.agreementKids)
         }
     }
 
@@ -104,10 +141,13 @@ class TestDIDDocFromJson {
         val expectedService1 =
             (fromJson(DID_DOC_NUMALGO_2_MULTIBASE_2_SERVICES)["service"] as List<Map<String, Any>>)[0]
         assertTrue(service1 is DIDCommServicePeerDID)
-        assertEquals(expectedService1["id"], service1.id)
-        assertEquals(expectedService1["serviceEndpoint"], service1.serviceEndpoint)
-        assertEquals(expectedService1["type"], service1.type)
-        assertEquals(expectedService1["routingKeys"], service1.routingKeys)
+        assertEquals((expectedService1["id"] as JsonElement).jsonPrimitive.content, service1.id) // (expectedService1["id"] as JsonElement).jsonPrimitive.content
+        assertEquals((expectedService1["serviceEndpoint"] as JsonElement).jsonPrimitive.content, service1.serviceEndpoint)
+        assertEquals((expectedService1["type"] as JsonElement).jsonPrimitive.content, service1.type)
+        val expectedService1RoutingKeys = (expectedService1["routingKeys"] as JsonArray).map {
+            it.jsonPrimitive.content
+        }
+        assertEquals(expectedService1RoutingKeys, service1.routingKeys)
         assertTrue(service1.accept.isEmpty())
 
         val service2 = didDoc.service!![1]

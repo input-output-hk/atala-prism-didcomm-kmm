@@ -1,23 +1,15 @@
 package io.iohk.atala.prism.mercury.didpeer
 
-import io.iohk.atala.prism.mercury.didpeer.core.didDocFromJson
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.*
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 
 fun fromJson(value: String): Map<String, Any> {
-    val ob = Json.parseToJsonElement(value).jsonObject.map {
-
-        return {}
+    val element = Json.parseToJsonElement(value)
+    if (element is JsonObject) {
+        return element.toMap()
+    } else {
+        throw Exception("")
     }
-    return didDocFromJson(ob).toDict()
 }
 
 const val PEER_DID_NUMALGO_0 = "did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"

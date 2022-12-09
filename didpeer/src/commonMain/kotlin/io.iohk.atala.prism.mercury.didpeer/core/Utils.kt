@@ -1,6 +1,5 @@
 package io.iohk.atala.prism.mercury.didpeer.core
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray

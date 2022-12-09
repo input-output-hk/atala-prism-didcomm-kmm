@@ -60,9 +60,9 @@ internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
 }
 
 internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMethodPeerDID {
-    val id = jsonObject["id"]?.toString()
+    val id = jsonObject["id"]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'id' field in method $jsonObject")
-    val controller = jsonObject["controller"]?.toString()
+    val controller = jsonObject["controller"]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'controller' field in method $jsonObject")
 
     val verMaterialType = getVerMethodType(jsonObject)
@@ -71,11 +71,14 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
     val value = if (verMaterialType is VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 ||
         verMaterialType is VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
     ) {
-        val jwkJson = jsonObject[field.value]?.jsonObject?.toString()
+        val jwkJson = jsonObject[field.value]?.jsonObject
             ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
-        fromJsonToMap(jwkJson)
+        jwkJson.toMap()
+//        val jwkJson = jsonObject[field.value]?.jsonObject?.toString()
+//            ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
+//        fromJsonToMap(jwkJson)
     } else {
-        jsonObject[field.value]?.toString()
+        jsonObject[field.value]?.jsonPrimitive?.content
             ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
     }
 
@@ -90,19 +93,19 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
 }
 
 internal fun serviceFromJson(jsonObject: JsonObject): Service {
-    val serviceMap = fromJsonToMap(jsonObject.toString())
+    val serviceMap = jsonObject.toMap() // fromJsonToMap(jsonObject.toString())
 
-    val id = jsonObject[SERVICE_ID]?.toString()
+    val id = jsonObject[SERVICE_ID]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'id' field in service $jsonObject")
-    val type = jsonObject[SERVICE_TYPE]?.toString()
+    val type = jsonObject[SERVICE_TYPE]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'type' field in service $jsonObject")
 
     if (type != SERVICE_DIDCOMM_MESSAGING)
         return OtherService(serviceMap)
 
-    val endpoint = jsonObject[SERVICE_ENDPOINT]?.toString()
-    val routingKeys = jsonObject[SERVICE_ROUTING_KEYS]?.jsonArray?.map { it.toString() }
-    val accept = jsonObject[SERVICE_ACCEPT]?.jsonArray?.map { it.toString() }
+    val endpoint = jsonObject[SERVICE_ENDPOINT]?.jsonPrimitive?.content
+    val routingKeys = jsonObject[SERVICE_ROUTING_KEYS]?.jsonArray?.map { it.jsonPrimitive.content }
+    val accept = jsonObject[SERVICE_ACCEPT]?.jsonArray?.map { it.jsonPrimitive.content }
 
     return DIDCommServicePeerDID(
         id = id,
@@ -114,7 +117,7 @@ internal fun serviceFromJson(jsonObject: JsonObject): Service {
 }
 
 private fun getVerMethodType(jsonObject: JsonObject): VerificationMethodTypePeerDID {
-    val type = (jsonObject["type"] as JsonPrimitive)?.contentOrNull
+    val type = (jsonObject["type"] as JsonPrimitive).contentOrNull
         ?: throw IllegalArgumentException("No 'type' field in method $jsonObject")
 
     return when (type) {
