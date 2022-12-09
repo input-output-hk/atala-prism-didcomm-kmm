@@ -1,9 +1,11 @@
 package io.iohk.atala.prism.mercury.didpeer
 
+import io.iohk.atala.prism.mercury.didpeer.core.didDocFromJson
+import io.iohk.atala.prism.mercury.didpeer.core.toJsonElement
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 
 const val SERVICE_ID = "id"
 const val SERVICE_TYPE = "type"
@@ -42,8 +44,8 @@ data class DIDDocPeerDID(
     }
 
     fun toJson(): String {
-        // GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(toDict())
-        return Json.encodeToString(toDict())
+        // Json.encodeToString(toDict().toJsonElement())
+        return toDict().toJsonElement().toString()
     }
 
     companion object {
@@ -57,8 +59,8 @@ data class DIDDocPeerDID(
         fun fromJson(value: JSON): DIDDocPeerDID {
             try {
                 // Two ways
-                // return didDocFromJson(Json.parseToJsonElement(value).jsonObject)
-                return Json.decodeFromString<DIDDocPeerDID>(value)
+                return didDocFromJson(Json.parseToJsonElement(value).jsonObject)
+                // return Json.decodeFromString<DIDDocPeerDID>(value)
             } catch (e: Exception) {
                 throw MalformedPeerDIDDOcException(e)
             }

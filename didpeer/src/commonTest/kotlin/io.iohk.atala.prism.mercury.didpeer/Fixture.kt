@@ -1,11 +1,15 @@
 package io.iohk.atala.prism.mercury.didpeer
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 
-fun fromJson(value: String): Map<*, *> {
-    return Json.decodeFromString<Map<*, *>>(value)
-    // return GsonBuilder().create().fromJson(value, Map::class.java)
+fun fromJson(value: String): Map<String, Any> {
+    val element = Json.parseToJsonElement(value)
+    if (element is JsonObject) {
+        return element.toMap()
+    } else {
+        throw Exception("")
+    }
 }
 
 const val PEER_DID_NUMALGO_0 = "did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"
