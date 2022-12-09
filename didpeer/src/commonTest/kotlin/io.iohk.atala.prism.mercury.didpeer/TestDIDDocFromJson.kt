@@ -119,10 +119,13 @@ class TestDIDDocFromJson {
             }
             assertEquals(expectedServiceAccept, service.accept)
 
-            assertEquals(listOf(
-                (expectedAuth1["id"] as JsonPrimitive).content,
-                (expectedAuth2["id"] as JsonPrimitive).content
-            ), didDoc.authenticationKids)
+            assertEquals(
+                listOf(
+                    (expectedAuth1["id"] as JsonPrimitive).content,
+                    (expectedAuth2["id"] as JsonPrimitive).content
+                ),
+                didDoc.authenticationKids
+            )
 
             assertEquals(listOf((expectedAgreem["id"] as JsonPrimitive).content), didDoc.agreementKids)
         }

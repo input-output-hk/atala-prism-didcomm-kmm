@@ -1,6 +1,5 @@
 package io.iohk.atala.prism.mercury.didpeer.core
 
-import io.iohk.atala.prism.apollo.base64.base64UrlDecodedBytes
 import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
 import io.iohk.atala.prism.apollo.base64.base64UrlPadDecodedBytes
 import io.iohk.atala.prism.mercury.didpeer.VerificationMaterialPeerDID
