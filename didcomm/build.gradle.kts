@@ -3,12 +3,11 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackOutput.Target
 
 version = rootProject.version
-val currentModuleName: String = "DIDCommDIDPeer"
+val currentModuleName: String = "DIDComm"
 val os: OperatingSystem = OperatingSystem.current()
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.7.20"
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.dokka")
@@ -83,7 +82,7 @@ kotlin {
 
     if (os.isMacOsX) {
         cocoapods {
-            this.summary = "Mercury DIDPeer Atala PRISM"
+            this.summary = "Mercury around Atala PRISM"
             this.version = rootProject.version.toString()
             this.authors = "IOG"
             this.ios.deploymentTarget = "13.0"
@@ -92,6 +91,7 @@ kotlin {
             this.watchos.deploymentTarget = "8.0"
             framework {
                 this.baseName = currentModuleName
+                export(project(":didpeer"))
             }
         }
     }
@@ -99,9 +99,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.iohk.atala.prism:multibase:1.0.0-alpha")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("com.squareup.okio:okio:3.2.0")
+                api(project(":didpeer"))
             }
         }
         val commonTest by getting {
@@ -196,7 +194,7 @@ tasks.withType<DokkaTask> {
     moduleName.set(project.name)
     moduleVersion.set(rootProject.version.toString())
     description = """
-        This is a Kotlin Multiplatform Library for Mercury DIDPeer
+        This is a Kotlin Multiplatform Library for Mercury
     """.trimIndent()
     dokkaSourceSets {
         // TODO: Figure out how to include files to the documentations

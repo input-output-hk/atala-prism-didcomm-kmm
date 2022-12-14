@@ -6,6 +6,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "mercury"
-include(":mercury")
+rootProject.name = "DIDComm"
+include(":didcomm")
 include(":didpeer")
