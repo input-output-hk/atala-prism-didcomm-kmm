@@ -1,12 +1,12 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'didpeer'
+    spec.name                     = 'didcomm'
     spec.version                  = '1.0.0-alpha'
     spec.homepage                 = ''
     spec.source                   = { :http=> ''}
     spec.authors                  = 'IOG'
     spec.license                  = ''
-    spec.summary                  = 'Mercury DIDPeer Atala PRISM'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/DIDCommDIDPeer.framework'
+    spec.summary                  = 'Mercury around Atala PRISM'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/DIDComm.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '13.0'
     spec.osx.deployment_target = '12.0'
@@ -15,13 +15,13 @@ Pod::Spec.new do |spec|
                 
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':didpeer',
-        'PRODUCT_MODULE_NAME' => 'DIDCommDIDPeer',
+        'KOTLIN_PROJECT_PATH' => ':didcomm',
+        'PRODUCT_MODULE_NAME' => 'DIDComm',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build didpeer',
+            :name => 'Build didcomm',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT
