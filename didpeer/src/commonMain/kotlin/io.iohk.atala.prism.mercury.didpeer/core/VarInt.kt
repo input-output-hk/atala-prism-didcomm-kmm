@@ -2,6 +2,8 @@ package io.iohk.atala.prism.mercury.didpeer.core
 
 import okio.Buffer
 
+// TODO: Move this implementation to its own Module and update it to follow these specifications
+//  https://github.com/multiformats/unsigned-varint
 object VarInt {
     fun writeVarInt(value: Int, byteBuffer: Buffer) {
         var value = value
