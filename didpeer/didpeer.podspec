@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'didpeer'
-    spec.version                  = '1.0.0-alpha'
+    spec.version                  = '1.0.1-alpha'
     spec.homepage                 = ''
     spec.source                   = { :http=> ''}
     spec.authors                  = 'IOG'

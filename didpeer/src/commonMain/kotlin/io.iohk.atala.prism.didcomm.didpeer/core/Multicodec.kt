@@ -1,5 +1,6 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
+import io.iohk.atala.prism.apollo.varint.VarInt
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypePeerDID
@@ -13,15 +14,15 @@ enum class Codec(val prefix: Int) {
 fun toMulticodec(value: ByteArray, keyType: VerificationMethodTypePeerDID): ByteArray {
     val prefix = getCodec(keyType).prefix
     val byteBuffer = Buffer()
-    VarInt.writeVarInt(prefix, byteBuffer)
+    VarInt.write(prefix, byteBuffer)
     return byteBuffer.readByteArray().plus(value)
 }
 
 fun fromMulticodec(value: ByteArray): Pair<Codec, ByteArray> {
-    val prefix = VarInt.readVarInt(Buffer().write(value))
+    val prefix = VarInt.read(Buffer().write(value))
     val codec = getCodec(prefix)
     val byteBuffer = Buffer()
-    VarInt.writeVarInt(prefix, byteBuffer)
+    VarInt.write(prefix, byteBuffer)
     return Pair(codec, value.drop(2).toByteArray())
 }
 

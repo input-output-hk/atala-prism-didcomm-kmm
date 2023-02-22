@@ -99,7 +99,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.iohk.atala.prism:multibase:1.0.0-alpha")
+                implementation("io.iohk.atala.prism:multibase:1.6.0-alpha")
+                implementation("io.iohk.atala.prism:varint:1.6.0-alpha")
+                implementation("io.iohk.atala.prism:base64:1.6.0-alpha")
+                implementation("io.iohk.atala.prism:base58:1.6.0-alpha")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("com.squareup.okio:okio:3.2.0")
             }
