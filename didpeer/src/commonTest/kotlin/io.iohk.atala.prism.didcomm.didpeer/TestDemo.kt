@@ -1,19 +1,8 @@
 package io.iohk.atala.prism.didcomm.didpeer
 
-import io.iohk.atala.prism.didcomm.didpeer.core.VarInt
-import okio.Buffer
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class TestDemo {
-
-    @Test
-    fun moussaTest() {
-        val buffer = Buffer()
-        VarInt.writeVarInt(500, buffer)
-        val result = VarInt.readVarInt(buffer)
-        assertEquals(500, result)
-    }
 
     @Test
     fun testCreateResolvePeerDID() {

@@ -1,25 +1,18 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
+import io.iohk.atala.prism.apollo.varint.VarInt
 import okio.Buffer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class VarIntTests {
-    @Test
-    fun testVarInt() {
-        val origin = 1234774
-        val byteBuffer = Buffer()
-        VarInt.writeVarInt(origin, byteBuffer)
-        val fin: Int = VarInt.readVarInt(byteBuffer)
-        assertEquals(origin, fin)
-    }
 
     @Test
     fun testVarIntX25519() {
         val origin = Codec.X25519.prefix
         val byteBuffer = Buffer()
-        VarInt.writeVarInt(origin, byteBuffer)
-        val fin: Int = VarInt.readVarInt(byteBuffer)
+        VarInt.write(origin, byteBuffer)
+        val fin: Int = VarInt.read(byteBuffer)
         assertEquals(origin, fin)
     }
 
@@ -27,8 +20,8 @@ class VarIntTests {
     fun testVarIntED25519() {
         val origin = Codec.ED25519.prefix
         val byteBuffer = Buffer()
-        VarInt.writeVarInt(origin, byteBuffer)
-        val fin: Int = VarInt.readVarInt(byteBuffer)
+        VarInt.write(origin, byteBuffer)
+        val fin: Int = VarInt.read(byteBuffer)
         assertEquals(origin, fin)
     }
 
