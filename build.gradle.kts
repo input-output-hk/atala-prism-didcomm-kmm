@@ -19,11 +19,9 @@ buildscript {
     }
 }
 
-version = "1.0.1-alpha"
-group = "io.iohk.atala.prism"
-
 allprojects {
-    group = "io.iohk.atala.prism"
+    version = "1.0.2-alpha"
+    group = "io.iohk.atala.prism.didcomm"
 
     repositories {
         google()

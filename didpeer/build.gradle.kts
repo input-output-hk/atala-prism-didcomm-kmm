@@ -2,7 +2,6 @@ import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackOutput.Target
 
-version = rootProject.version
 val currentModuleName: String = "DIDCommDIDPeer"
 val os: OperatingSystem = OperatingSystem.current()
 
@@ -99,10 +98,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.iohk.atala.prism:multibase:1.6.0-alpha")
-                implementation("io.iohk.atala.prism:varint:1.6.0-alpha")
-                implementation("io.iohk.atala.prism:base64:1.6.0-alpha")
-                implementation("io.iohk.atala.prism:base58:1.6.0-alpha")
+                implementation("io.iohk.atala.prism.apollo:multibase:1.7.0-alpha")
+                implementation("io.iohk.atala.prism.apollo:varint:1.7.0-alpha")
+                implementation("io.iohk.atala.prism.apollo:base64:1.7.0-alpha")
+                implementation("io.iohk.atala.prism.apollo:base58:1.7.0-alpha")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("com.squareup.okio:okio:3.2.0")
             }
