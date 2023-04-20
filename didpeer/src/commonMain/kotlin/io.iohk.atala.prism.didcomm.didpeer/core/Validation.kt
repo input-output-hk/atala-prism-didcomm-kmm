@@ -29,5 +29,5 @@ internal fun validateJson(value: String) {
 internal fun validateRawKeyLength(key: ByteArray) {
     // for all supported key types now (ED25519 and X25510) the expected size is 32
     if (key.size != 32)
-        throw IllegalArgumentException("Invalid key $key")
+        throw IllegalArgumentException("Invalid key $key, size should be 32 and it is: ${key.size}")
 }
