@@ -9,6 +9,7 @@ import io.iohk.atala.prism.didcomm.didpeer.core.getVerificationMethod
 import io.iohk.atala.prism.didcomm.didpeer.core.validateAgreementMaterialType
 import io.iohk.atala.prism.didcomm.didpeer.core.validateAuthenticationMaterialType
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 
 /** Resolves [DIDDocPeerDID] from [PeerDID]
  * @param [peerDID] PeerDID to resolve
@@ -18,6 +19,7 @@ import kotlin.jvm.JvmName
  * - if a valid DIDDoc cannot be produced from the [peerDID]
  * @return resolved [DIDDocPeerDID] as JSON string
  */
+@JvmOverloads
 fun resolvePeerDID(
     peerDID: PeerDID,
     format: VerificationMaterialFormatPeerDID = VerificationMaterialFormatPeerDID.MULTIBASE

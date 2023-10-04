@@ -1,12 +1,14 @@
 package io.iohk.atala.prism.didcomm.didpeer
 
+import kotlin.jvm.JvmOverloads
+
 /**
  * The base class for all PeerDID errors and exceptions.
  *
  * @param message - the detail message.
  * @param cause - the cause of this.
  */
-open class PeerDIDException(message: String, cause: Throwable? = null) : Throwable(message, cause)
+open class PeerDIDException @JvmOverloads constructor(message: String, cause: Throwable? = null) : Throwable(message, cause)
 
 /**
  * Raised if the peer DID to be resolved in not a valid peer DID.
@@ -14,7 +16,7 @@ open class PeerDIDException(message: String, cause: Throwable? = null) : Throwab
  * @param message - the detail message.
  * @param cause - the cause of this.
  */
-class MalformedPeerDIDException(message: String, cause: Throwable? = null) :
+class MalformedPeerDIDException @JvmOverloads constructor(message: String, cause: Throwable? = null) :
     PeerDIDException("Invalid peer DID provided. $message", cause)
 
 /**
@@ -22,5 +24,5 @@ class MalformedPeerDIDException(message: String, cause: Throwable? = null) :
  *
  * @param cause - the cause of this.
  */
-class MalformedPeerDIDDOcException(cause: Throwable? = null) :
+class MalformedPeerDIDDOcException @JvmOverloads constructor(cause: Throwable? = null) :
     PeerDIDException("Invalid peer DID Doc", cause)

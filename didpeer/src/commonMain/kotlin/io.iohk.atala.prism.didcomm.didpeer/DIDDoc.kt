@@ -5,6 +5,7 @@ import io.iohk.atala.prism.didcomm.didpeer.core.toJsonElement
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
+import kotlin.jvm.JvmOverloads
 
 const val SERVICE_ID = "id"
 const val SERVICE_TYPE = "type"
@@ -14,7 +15,7 @@ const val SERVICE_ROUTING_KEYS = "routingKeys"
 const val SERVICE_ACCEPT = "accept"
 
 @Serializable
-data class DIDDocPeerDID(
+data class DIDDocPeerDID @JvmOverloads constructor(
     val did: String,
     val authentication: List<VerificationMethodPeerDID>,
     val keyAgreement: List<VerificationMethodPeerDID> = emptyList(),

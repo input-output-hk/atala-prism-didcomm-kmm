@@ -42,6 +42,7 @@ kotlin {
         this.moduleName = currentModuleName
         this.binaries.library()
         this.useCommonJs()
+        generateTypeScriptDefinitions()
         this.compilations["main"].packageJson {
             this.version = rootProject.version.toString()
         }
@@ -53,15 +54,7 @@ kotlin {
                 this.output.library = currentModuleName
                 this.output.libraryTarget = Target.VAR
             }
-            this.commonWebpackConfig {
-                this.cssSupport {
-                    this.enabled = true
-                }
-            }
             this.testTask {
-                if (os.isWindows) {
-                    this.enabled = false
-                }
                 this.useKarma {
                     this.useChromeHeadless()
                 }
@@ -69,9 +62,6 @@ kotlin {
         }
         nodejs {
             this.testTask {
-                if (os.isWindows) {
-                    this.enabled = false
-                }
                 this.useKarma {
                     this.useChromeHeadless()
                 }
@@ -192,9 +182,7 @@ android {
 tasks.withType<DokkaTask> {
     moduleName.set(project.name)
     moduleVersion.set(rootProject.version.toString())
-    description = """
-        This is a Kotlin Multiplatform Library for Mercury
-    """.trimIndent()
+    description = "This is a Kotlin Multiplatform Library for Mercury"
     dokkaSourceSets {
         // TODO: Figure out how to include files to the documentations
         named("commonMain") {
@@ -202,13 +190,3 @@ tasks.withType<DokkaTask> {
         }
     }
 }
-
-// afterEvaluate {
-//    tasks.withType<AbstractTestTask> {
-//        testLogging {
-//            events("passed", "skipped", "failed", "standard_out", "standard_error")
-//            showExceptions = true
-//            showStackTraces = true
-//        }
-//    }
-// }

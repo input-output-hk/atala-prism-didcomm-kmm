@@ -43,6 +43,7 @@ kotlin {
         this.moduleName = currentModuleName
         this.binaries.library()
         this.useCommonJs()
+        generateTypeScriptDefinitions()
         this.compilations["main"].packageJson {
             this.version = rootProject.version.toString()
         }
@@ -54,15 +55,7 @@ kotlin {
                 this.output.library = currentModuleName
                 this.output.libraryTarget = Target.VAR
             }
-            this.commonWebpackConfig {
-                this.cssSupport {
-                    this.enabled = true
-                }
-            }
             this.testTask {
-                if (os.isWindows) {
-                    this.enabled = false
-                }
                 this.useKarma {
                     this.useChromeHeadless()
                 }
@@ -70,9 +63,6 @@ kotlin {
         }
         nodejs {
             this.testTask {
-                if (os.isWindows) {
-                    this.enabled = false
-                }
                 this.useKarma {
                     this.useChromeHeadless()
                 }
@@ -98,10 +88,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.iohk.atala.prism.apollo:multibase:1.7.0-alpha")
-                implementation("io.iohk.atala.prism.apollo:varint:1.7.0-alpha")
-                implementation("io.iohk.atala.prism.apollo:base64:1.7.0-alpha")
-                implementation("io.iohk.atala.prism.apollo:base58:1.7.0-alpha")
+                implementation("io.iohk.atala.prism.apollo:multibase:1.0.2")
+                implementation("io.iohk.atala.prism.apollo:varint:1.0.2")
+                implementation("io.iohk.atala.prism.apollo:base64:1.0.2")
+                implementation("io.iohk.atala.prism.apollo:base58:1.0.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("com.squareup.okio:okio:3.2.0")
             }
@@ -197,9 +187,7 @@ android {
 tasks.withType<DokkaTask> {
     moduleName.set(project.name)
     moduleVersion.set(rootProject.version.toString())
-    description = """
-        This is a Kotlin Multiplatform Library for Mercury DIDPeer
-    """.trimIndent()
+    description = "This is a Kotlin Multiplatform Library for Mercury DIDPeer"
     dokkaSourceSets {
         // TODO: Figure out how to include files to the documentations
         named("commonMain") {
@@ -207,13 +195,3 @@ tasks.withType<DokkaTask> {
         }
     }
 }
-
-// afterEvaluate {
-//    tasks.withType<AbstractTestTask> {
-//        testLogging {
-//            events("passed", "skipped", "failed", "standard_out", "standard_error")
-//            showExceptions = true
-//            showStackTraces = true
-//        }
-//    }
-// }
