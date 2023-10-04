@@ -14,13 +14,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
         classpath("com.android.tools.build:gradle:7.2.2")
     }
 }
 
 allprojects {
-    version = "1.0.3-alpha"
+    version = "1.0.4-alpha"
     group = "io.iohk.atala.prism.didcomm"
 
     repositories {
