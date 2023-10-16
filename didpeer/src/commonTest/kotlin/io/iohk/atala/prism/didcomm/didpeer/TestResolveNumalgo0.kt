@@ -6,7 +6,6 @@ import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
 class TestResolveNumalgo0 {
-
     @Test
     fun testResolvePositiveDefault() {
         val realValue = resolvePeerDID(PEER_DID_NUMALGO_0)
@@ -33,73 +32,82 @@ class TestResolveNumalgo0 {
 
     @Test
     fun testResolveUnsupportedDIDMethod() {
-        val ex = assertFails {
-            resolvePeerDID("did:key:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:key:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveInvalidPeerDID() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6MkqRYqQiSBytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6MkqRYqQiSBytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveUnsupportedNumalgoCode() {
-        val ex = assertFails {
-            resolvePeerDID("did:key:1z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:key:1z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveMalformedBase58Encoding() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6MkqRYqQiSgvZQd0Bytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6MkqRYqQiSgvZQd0Bytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveUnsupportedTransformCode() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0a6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0a6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveMalformedMulticodecEncoding() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6666RYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6666RYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Invalid key.*")))
     }
 
     @Test
     fun testResolveInvalidKeyType() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Invalid key.*")))
     }
 
     @Test
     fun testResolveShortKey() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6LSbysY2xFMR")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6LSbysY2xFMR")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 
     @Test
     fun testResolveLongKey() {
-        val ex = assertFails {
-            resolvePeerDID("did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&")
-        }
+        val ex =
+            assertFails {
+                resolvePeerDID("did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&")
+            }
         assertTrue(ex.message!!.matches(Regex("Invalid peer DID provided.*Does not match peer DID regexp.*")))
     }
 }

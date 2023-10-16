@@ -13,7 +13,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class TestDIDDocFromJson {
-
     data class TestData(
         val didDoc: JSON,
         val expectedFormat: VerificationMaterialFormatPeerDID,
@@ -109,14 +108,16 @@ class TestDIDDocFromJson {
             assertEquals((expectedService["serviceEndpoint"] as JsonPrimitive).content, service.serviceEndpoint)
             assertEquals((expectedService["type"] as JsonPrimitive).content, service.type)
 
-            val expectedServiceRoutingKeys = (expectedService["routingKeys"] as JsonArray).map {
-                it.jsonPrimitive.content
-            }
+            val expectedServiceRoutingKeys =
+                (expectedService["routingKeys"] as JsonArray).map {
+                    it.jsonPrimitive.content
+                }
             assertEquals(expectedServiceRoutingKeys, service.routingKeys)
 
-            val expectedServiceAccept = (expectedService["accept"] as JsonArray).map {
-                it.jsonPrimitive.content
-            }
+            val expectedServiceAccept =
+                (expectedService["accept"] as JsonArray).map {
+                    it.jsonPrimitive.content
+                }
             assertEquals(expectedServiceAccept, service.accept)
 
             assertEquals(
@@ -144,12 +145,16 @@ class TestDIDDocFromJson {
         val expectedService1 =
             (fromJson(DID_DOC_NUMALGO_2_MULTIBASE_2_SERVICES)["service"] as List<Map<String, Any>>)[0]
         assertTrue(service1 is DIDCommServicePeerDID)
-        assertEquals((expectedService1["id"] as JsonElement).jsonPrimitive.content, service1.id) // (expectedService1["id"] as JsonElement).jsonPrimitive.content
+        assertEquals(
+            (expectedService1["id"] as JsonElement).jsonPrimitive.content,
+            service1.id
+        ) // (expectedService1["id"] as JsonElement).jsonPrimitive.content
         assertEquals((expectedService1["serviceEndpoint"] as JsonElement).jsonPrimitive.content, service1.serviceEndpoint)
         assertEquals((expectedService1["type"] as JsonElement).jsonPrimitive.content, service1.type)
-        val expectedService1RoutingKeys = (expectedService1["routingKeys"] as JsonArray).map {
-            it.jsonPrimitive.content
-        }
+        val expectedService1RoutingKeys =
+            (expectedService1["routingKeys"] as JsonArray).map {
+                it.jsonPrimitive.content
+            }
         assertEquals(expectedService1RoutingKeys, service1.routingKeys)
         assertTrue(service1.accept.isEmpty())
 
@@ -198,13 +203,14 @@ class TestDIDDocFromJson {
 
     @Test
     fun testDidDocIdFieldOnly() {
-        val didDoc = DIDDocPeerDID.fromJson(
-            """
+        val didDoc =
+            DIDDocPeerDID.fromJson(
+                """
    {
        "id": "did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"
    }
             """
-        )
+            )
         assertEquals("did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V", didDoc.did)
     }
 
@@ -372,53 +378,54 @@ class TestDIDDocFromJson {
     }
 
     companion object {
-
-        val didDocNumalgo0: List<TestData> = listOf(
-            TestData(
-                DID_DOC_NUMALGO_O_BASE58,
-                VerificationMaterialFormatPeerDID.BASE58,
-                VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
-                PublicKeyField.BASE58
-            ),
-            TestData(
-                DID_DOC_NUMALGO_O_MULTIBASE,
-                VerificationMaterialFormatPeerDID.MULTIBASE,
-                VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
-                VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
-                PublicKeyField.MULTIBASE
-            ),
-            TestData(
-                DID_DOC_NUMALGO_O_JWK,
-                VerificationMaterialFormatPeerDID.JWK,
-                VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-                VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
-                PublicKeyField.JWK
+        val didDocNumalgo0: List<TestData> =
+            listOf(
+                TestData(
+                    DID_DOC_NUMALGO_O_BASE58,
+                    VerificationMaterialFormatPeerDID.BASE58,
+                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    PublicKeyField.BASE58
+                ),
+                TestData(
+                    DID_DOC_NUMALGO_O_MULTIBASE,
+                    VerificationMaterialFormatPeerDID.MULTIBASE,
+                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                    PublicKeyField.MULTIBASE
+                ),
+                TestData(
+                    DID_DOC_NUMALGO_O_JWK,
+                    VerificationMaterialFormatPeerDID.JWK,
+                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                    PublicKeyField.JWK
+                )
             )
-        )
 
-        val didDocNumalgo2: List<TestData> = listOf(
-            TestData(
-                DID_DOC_NUMALGO_2_BASE58,
-                VerificationMaterialFormatPeerDID.BASE58,
-                VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
-                PublicKeyField.BASE58
-            ),
-            TestData(
-                DID_DOC_NUMALGO_2_MULTIBASE,
-                VerificationMaterialFormatPeerDID.MULTIBASE,
-                VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
-                VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
-                PublicKeyField.MULTIBASE
-            ),
-            TestData(
-                DID_DOC_NUMALGO_2_JWK,
-                VerificationMaterialFormatPeerDID.JWK,
-                VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-                VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
-                PublicKeyField.JWK
+        val didDocNumalgo2: List<TestData> =
+            listOf(
+                TestData(
+                    DID_DOC_NUMALGO_2_BASE58,
+                    VerificationMaterialFormatPeerDID.BASE58,
+                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    PublicKeyField.BASE58
+                ),
+                TestData(
+                    DID_DOC_NUMALGO_2_MULTIBASE,
+                    VerificationMaterialFormatPeerDID.MULTIBASE,
+                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                    PublicKeyField.MULTIBASE
+                ),
+                TestData(
+                    DID_DOC_NUMALGO_2_JWK,
+                    VerificationMaterialFormatPeerDID.JWK,
+                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                    PublicKeyField.JWK
+                )
             )
-        )
     }
 }

@@ -1,4 +1,5 @@
 @file:JvmName("PeerDIDUtils")
+
 package io.iohk.atala.prism.didcomm.didpeer.core
 
 import io.iohk.atala.prism.apollo.base64.base64UrlDecoded
@@ -26,16 +27,17 @@ import kotlin.jvm.JvmName
 internal enum class Numalgo2Prefix(val prefix: Char) {
     AUTHENTICATION('V'),
     KEY_AGREEMENT('E'),
-    SERVICE('S');
+    SERVICE('S')
 }
 
-private val ServicePrefix = mapOf(
-    SERVICE_TYPE to "t",
-    SERVICE_ENDPOINT to "s",
-    SERVICE_DIDCOMM_MESSAGING to "dm",
-    SERVICE_ROUTING_KEYS to "r",
-    SERVICE_ACCEPT to "a",
-)
+private val ServicePrefix =
+    mapOf(
+        SERVICE_TYPE to "t",
+        SERVICE_ENDPOINT to "s",
+        SERVICE_DIDCOMM_MESSAGING to "dm",
+        SERVICE_ROUTING_KEYS to "r",
+        SERVICE_ACCEPT to "a",
+    )
 
 /**
  * Encodes [service] according to the second algorithm.
@@ -46,12 +48,13 @@ private val ServicePrefix = mapOf(
  */
 internal fun encodeService(service: JSON): String {
     validateJson(service)
-    val serviceToEncode = service.replace(Regex("[\n\t\\s]*"), "")
-        .replace(SERVICE_TYPE, ServicePrefix.getValue(SERVICE_TYPE))
-        .replace(SERVICE_ENDPOINT, ServicePrefix.getValue(SERVICE_ENDPOINT))
-        .replace(SERVICE_DIDCOMM_MESSAGING, ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING))
-        .replace(SERVICE_ROUTING_KEYS, ServicePrefix.getValue(SERVICE_ROUTING_KEYS))
-        .replace(SERVICE_ACCEPT, ServicePrefix.getValue(SERVICE_ACCEPT))
+    val serviceToEncode =
+        service.replace(Regex("[\n\t\\s]*"), "")
+            .replace(SERVICE_TYPE, ServicePrefix.getValue(SERVICE_TYPE))
+            .replace(SERVICE_ENDPOINT, ServicePrefix.getValue(SERVICE_ENDPOINT))
+            .replace(SERVICE_DIDCOMM_MESSAGING, ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING))
+            .replace(SERVICE_ROUTING_KEYS, ServicePrefix.getValue(SERVICE_ROUTING_KEYS))
+            .replace(SERVICE_ACCEPT, ServicePrefix.getValue(SERVICE_ACCEPT))
     val encodedService = serviceToEncode.encodeToByteArray().base64UrlEncoded
     return ".${Numalgo2Prefix.SERVICE.prefix}$encodedService"
 }
@@ -66,31 +69,36 @@ internal fun encodeService(service: JSON): String {
  * @return decoded service
  */
 internal fun decodeService(encodedService: JSON, peerDID: PeerDID): List<Service>? {
-    if (encodedService.isEmpty())
+    if (encodedService.isEmpty()) {
         return null
+    }
     // Base64.decodeBase64(encodedService).decodeToString()
     val decodedService = encodedService.base64UrlDecoded
 
-    val serviceMapList = try {
-        fromJsonToList(decodedService)
-    } catch (e: SerializationException) {
+    val serviceMapList =
         try {
-            listOf(fromJsonToMap(decodedService))
+            fromJsonToList(decodedService)
         } catch (e: SerializationException) {
-            throw IllegalArgumentException("Invalid JSON $decodedService")
+            try {
+                listOf(fromJsonToMap(decodedService))
+            } catch (e: SerializationException) {
+                throw IllegalArgumentException("Invalid JSON $decodedService")
+            }
         }
-    }
 
     return serviceMapList.mapIndexed { serviceNumber, serviceMap ->
-        if (!serviceMap.containsKey(ServicePrefix.getValue(SERVICE_TYPE)))
+        if (!serviceMap.containsKey(ServicePrefix.getValue(SERVICE_TYPE))) {
             throw IllegalArgumentException("service doesn't contain a type")
+        }
 
-        val serviceType = serviceMap.getValue(ServicePrefix.getValue(SERVICE_TYPE)).toString()
-            .replace(ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING), SERVICE_DIDCOMM_MESSAGING)
-        val service = mutableMapOf<String, Any>(
-            "id" to "$peerDID#${serviceType.lowercase()}-$serviceNumber",
-            "type" to serviceType
-        )
+        val serviceType =
+            serviceMap.getValue(ServicePrefix.getValue(SERVICE_TYPE)).toString()
+                .replace(ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING), SERVICE_DIDCOMM_MESSAGING)
+        val service =
+            mutableMapOf<String, Any>(
+                "id" to "$peerDID#${serviceType.lowercase()}-$serviceNumber",
+                "type" to serviceType
+            )
         serviceMap[ServicePrefix.getValue(SERVICE_ENDPOINT)]?.let { service.put(SERVICE_ENDPOINT, it) }
         serviceMap[ServicePrefix.getValue(SERVICE_ROUTING_KEYS)]?.let { service.put(SERVICE_ROUTING_KEYS, it) }
         serviceMap[ServicePrefix.getValue(SERVICE_ACCEPT)]?.let { service.put(SERVICE_ACCEPT, it) }
@@ -108,11 +116,12 @@ internal fun decodeService(encodedService: JSON, peerDID: PeerDID): List<Service
  * @return transform+encnumbasis
  */
 internal fun createMultibaseEncnumbasis(key: VerificationMaterialPeerDID<out VerificationMethodTypePeerDID>): String {
-    val decodedKey = when (key.format) {
-        VerificationMaterialFormatPeerDID.BASE58 -> fromBase58(key.value.toString())
-        VerificationMaterialFormatPeerDID.MULTIBASE -> fromMulticodec(fromBase58Multibase(key.value.toString()).second).second
-        VerificationMaterialFormatPeerDID.JWK -> fromJwk(key)
-    }
+    val decodedKey =
+        when (key.format) {
+            VerificationMaterialFormatPeerDID.BASE58 -> fromBase58(key.value.toString())
+            VerificationMaterialFormatPeerDID.MULTIBASE -> fromMulticodec(fromBase58Multibase(key.value.toString()).second).second
+            VerificationMaterialFormatPeerDID.JWK -> fromJwk(key)
+        }
     validateRawKeyLength(decodedKey)
     return toBase58Multibase(toMulticodec(decodedKey, key.type))
 }
@@ -137,60 +146,70 @@ internal fun decodeMultibaseEncnumbasis(
     val (codec, decodedEncnumbasisWithoutPrefix) = fromMulticodec(decodedEncnumbasis)
     validateRawKeyLength(decodedEncnumbasisWithoutPrefix)
 
-    val verMaterial = when (format) {
-        VerificationMaterialFormatPeerDID.BASE58 ->
-            when (codec) {
-                Codec.X25519 -> VerificationMaterialAgreement(
-                    format = format,
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
-                    value = toBase58(decodedEncnumbasisWithoutPrefix)
-                )
-                Codec.ED25519 -> VerificationMaterialAuthentication(
-                    format = format,
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                    value = toBase58(decodedEncnumbasisWithoutPrefix)
-                )
-            }
-        VerificationMaterialFormatPeerDID.MULTIBASE ->
-            when (codec) {
-                Codec.X25519 -> VerificationMaterialAgreement(
-                    format = format,
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
-                    value = toBase58Multibase(
-                        toMulticodec(
-                            decodedEncnumbasisWithoutPrefix,
-                            VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020
+    val verMaterial =
+        when (format) {
+            VerificationMaterialFormatPeerDID.BASE58 ->
+                when (codec) {
+                    Codec.X25519 ->
+                        VerificationMaterialAgreement(
+                            format = format,
+                            type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                            value = toBase58(decodedEncnumbasisWithoutPrefix)
                         )
-                    )
-                )
-                Codec.ED25519 -> VerificationMaterialAuthentication(
-                    format = format,
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
-                    value = toBase58Multibase(
-                        toMulticodec(
-                            decodedEncnumbasisWithoutPrefix,
-                            VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020
+                    Codec.ED25519 ->
+                        VerificationMaterialAuthentication(
+                            format = format,
+                            type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                            value = toBase58(decodedEncnumbasisWithoutPrefix)
                         )
-                    )
-                )
-            }
-        VerificationMaterialFormatPeerDID.JWK ->
-            when (codec) {
-                Codec.X25519 -> VerificationMaterialAgreement(
-                    format = format,
-                    type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
-                    value = toJwk(decodedEncnumbasisWithoutPrefix, VerificationMethodTypeAgreement.JSON_WEB_KEY_2020)
-                )
-                Codec.ED25519 -> VerificationMaterialAuthentication(
-                    format = format,
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-                    value = toJwk(
-                        decodedEncnumbasisWithoutPrefix,
-                        VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
-                    )
-                )
-            }
-    }
+                }
+            VerificationMaterialFormatPeerDID.MULTIBASE ->
+                when (codec) {
+                    Codec.X25519 ->
+                        VerificationMaterialAgreement(
+                            format = format,
+                            type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                            value =
+                                toBase58Multibase(
+                                    toMulticodec(
+                                        decodedEncnumbasisWithoutPrefix,
+                                        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020
+                                    )
+                                )
+                        )
+                    Codec.ED25519 ->
+                        VerificationMaterialAuthentication(
+                            format = format,
+                            type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                            value =
+                                toBase58Multibase(
+                                    toMulticodec(
+                                        decodedEncnumbasisWithoutPrefix,
+                                        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020
+                                    )
+                                )
+                        )
+                }
+            VerificationMaterialFormatPeerDID.JWK ->
+                when (codec) {
+                    Codec.X25519 ->
+                        VerificationMaterialAgreement(
+                            format = format,
+                            type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                            value = toJwk(decodedEncnumbasisWithoutPrefix, VerificationMethodTypeAgreement.JSON_WEB_KEY_2020)
+                        )
+                    Codec.ED25519 ->
+                        VerificationMaterialAuthentication(
+                            format = format,
+                            type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                            value =
+                                toJwk(
+                                    decodedEncnumbasisWithoutPrefix,
+                                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
+                                )
+                        )
+                }
+        }
 
     return DecodedEncumbasis(encnumbasis, verMaterial)
 }

@@ -1,4 +1,5 @@
 @file:JvmName("PeerDIDResolver")
+
 package io.iohk.atala.prism.didcomm.didpeer
 
 import io.iohk.atala.prism.didcomm.didpeer.core.DecodedEncumbasis
@@ -27,11 +28,12 @@ fun resolvePeerDID(
     if (!isPeerDID(peerDID)) {
         throw MalformedPeerDIDException("Does not match peer DID regexp: $peerDID")
     }
-    val didDoc = when (peerDID[9]) {
-        '0' -> buildDIDDocNumalgo0(peerDID, format)
-        '2' -> buildDIDDocNumalgo2(peerDID, format)
-        else -> throw IllegalArgumentException("Invalid numalgo of Peer DID: $peerDID")
-    }
+    val didDoc =
+        when (peerDID[9]) {
+            '0' -> buildDIDDocNumalgo0(peerDID, format)
+            '2' -> buildDIDDocNumalgo2(peerDID, format)
+            else -> throw IllegalArgumentException("Invalid numalgo of Peer DID: $peerDID")
+        }
     return didDoc.toJson()
 }
 

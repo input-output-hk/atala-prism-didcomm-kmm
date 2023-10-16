@@ -8,7 +8,7 @@ import okio.Buffer
 
 enum class Codec(val prefix: Int) {
     X25519(0xEC),
-    ED25519(0xED);
+    ED25519(0xED)
 }
 
 fun toMulticodec(value: ByteArray, keyType: VerificationMethodTypePeerDID): ByteArray {

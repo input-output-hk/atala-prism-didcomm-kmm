@@ -3,23 +3,24 @@ package io.iohk.atala.prism.didcomm.didpeer
 import kotlin.test.Test
 
 class TestDemo {
-
     @Test
     fun testCreateResolvePeerDID() {
-        val encryptionKeys = listOf(
-            VerificationMaterialAgreement(
-                type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
-                format = VerificationMaterialFormatPeerDID.BASE58,
-                value = "DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s",
+        val encryptionKeys =
+            listOf(
+                VerificationMaterialAgreement(
+                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    value = "DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s",
+                )
             )
-        )
-        val signingKeys = listOf(
-            VerificationMaterialAuthentication(
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                format = VerificationMaterialFormatPeerDID.BASE58,
-                value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
+        val signingKeys =
+            listOf(
+                VerificationMaterialAuthentication(
+                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
+                )
             )
-        )
         val service =
             """
                 {
@@ -31,9 +32,12 @@ class TestDemo {
             """
 
         val peerDIDAlgo0 = createPeerDIDNumalgo0(signingKeys[0])
-        val peerDIDAlgo2 = createPeerDIDNumalgo2(
-            encryptionKeys, signingKeys, service
-        )
+        val peerDIDAlgo2 =
+            createPeerDIDNumalgo2(
+                encryptionKeys,
+                signingKeys,
+                service
+            )
 
         println("PeerDID algo 0:$peerDIDAlgo0")
         println("==================================")

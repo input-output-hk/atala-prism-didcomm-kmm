@@ -1,4 +1,5 @@
 @file:JvmName("PeerDIDCreator")
+
 package io.iohk.atala.prism.didcomm.didpeer
 
 import io.iohk.atala.prism.didcomm.didpeer.core.Numalgo2Prefix
@@ -16,9 +17,10 @@ import kotlin.jvm.JvmName
  * @return true if [peerDID] matches spec, otherwise false
  */
 fun isPeerDID(peerDID: String): Boolean {
-    val regex = (
-        "^did:peer:(([0](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))" +
-            "|(2((.[AEVID](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))+(.(S)[0-9a-zA-Z=]*)?)))$"
+    val regex =
+        (
+            "^did:peer:(([0](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))" +
+                "|(2((.[AEVID](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))+(.(S)[0-9a-zA-Z=]*)?)))$"
         ).toRegex()
     return regex.matches(peerDID)
 }
@@ -58,14 +60,16 @@ fun createPeerDIDNumalgo2(
     encryptionKeys.forEach { validateAgreementMaterialType(it) }
     signingKeys.forEach { validateAuthenticationMaterialType(it) }
 
-    val encodedEncryptionKeysStr = encryptionKeys
-        .map { createMultibaseEncnumbasis(it) }
-        .map { ".${Numalgo2Prefix.KEY_AGREEMENT.prefix}$it" }
-        .joinToString("")
-    val encodedSigningKeysStr = signingKeys
-        .map { createMultibaseEncnumbasis(it) }
-        .map { ".${Numalgo2Prefix.AUTHENTICATION.prefix}$it" }
-        .joinToString("")
+    val encodedEncryptionKeysStr =
+        encryptionKeys
+            .map { createMultibaseEncnumbasis(it) }
+            .map { ".${Numalgo2Prefix.KEY_AGREEMENT.prefix}$it" }
+            .joinToString("")
+    val encodedSigningKeysStr =
+        signingKeys
+            .map { createMultibaseEncnumbasis(it) }
+            .map { ".${Numalgo2Prefix.AUTHENTICATION.prefix}$it" }
+            .joinToString("")
     val encodedService = if (service.isNullOrEmpty()) "" else encodeService(service)
 
     return "did:peer:2$encodedEncryptionKeysStr$encodedSigningKeysStr$encodedService"

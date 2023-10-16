@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class VarIntTests {
-
     @Test
     fun testVarIntX25519() {
         val origin = Codec.X25519.prefix

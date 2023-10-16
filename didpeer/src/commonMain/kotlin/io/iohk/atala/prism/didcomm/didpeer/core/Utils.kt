@@ -25,7 +25,9 @@ fun Any?.toJsonElement(): JsonElement {
 }
 
 fun Array<*>.toJsonArray() = JsonArray(map { it.toJsonElement() })
+
 fun Iterable<*>.toJsonArray() = JsonArray(map { it.toJsonElement() })
+
 fun Map<*, *>.toJsonObject() = JsonObject(mapKeys { it.key.toString() }.mapValues { it.value.toJsonElement() })
 
 fun Json.encodeToString(vararg pairs: Pair<*, *>) = encodeToString(pairs.toMap().toJsonElement())
