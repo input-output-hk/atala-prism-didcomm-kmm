@@ -56,10 +56,11 @@ jobs:
         run: |
           ./gradlew build test
 
-      - name: Publish test results
-        if: always()
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          files: "${{ github.workspace }}/atala-prism-sdk/build/test-results/testReleaseUnitTest/TEST-*.xml"
-          comment_title: "Unit Test Results"
-          check_name: "Unit Test Results"
+        # Container action is only supported on Linux
+#      - name: Publish test results
+#        if: always()
+#        uses: EnricoMi/publish-unit-test-result-action@v2
+#        with:
+#          files: "${{ github.workspace }}/atala-prism-sdk/build/test-results/testReleaseUnitTest/TEST-*.xml"
+#          comment_title: "Unit Test Results"
+#          check_name: "Unit Test Results"
