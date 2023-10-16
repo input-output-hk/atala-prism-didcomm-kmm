@@ -158,6 +158,7 @@ kotlin {
 }
 
 android {
+    namespace = "io.iohk.atala.prism.didcomm.didpeer"
     compileSdk = 32
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
@@ -188,10 +189,4 @@ tasks.withType<DokkaTask> {
     moduleName.set(project.name)
     moduleVersion.set(rootProject.version.toString())
     description = "This is a Kotlin Multiplatform Library for Mercury DIDPeer"
-    dokkaSourceSets {
-        // TODO: Figure out how to include files to the documentations
-        named("commonMain") {
-            includes.from("Module.md", "docs/Module.md")
-        }
-    }
 }
