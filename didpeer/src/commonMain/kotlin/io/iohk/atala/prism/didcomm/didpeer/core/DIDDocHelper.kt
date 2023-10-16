@@ -64,6 +64,7 @@ internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
     )
 }
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMethodPeerDID {
     val id = jsonObject["id"]?.jsonPrimitive?.content
         ?: throw IllegalArgumentException("No 'id' field in method $jsonObject")

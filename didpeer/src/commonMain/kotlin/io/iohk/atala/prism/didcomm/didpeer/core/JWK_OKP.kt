@@ -36,12 +36,5 @@ fun fromJwk(verMaterial: VerificationMaterialPeerDID<out VerificationMethodTypeP
         throw IllegalArgumentException("Invalid JWK key type - key agreement expected: ${verMaterial.value}")
 
     val value = jwkDict["x"].toString()
-    // Base64.decodeBase64(value) // this line in JVM handle both Base64 Standard & Base64 URL
-    // The following if condition is a workaround for a bug in Apollo Base64URLPad decoding which will be
-    // fixed in the next release
-//    var decoded = value.base64UrlDecodedBytes
-//    if (decoded.isNotEmpty() && decoded.last().toInt() == 0) {
-//        decoded = decoded.dropLast(1).toByteArray()
-//    }
     return value.base64UrlDecodedBytes
 }

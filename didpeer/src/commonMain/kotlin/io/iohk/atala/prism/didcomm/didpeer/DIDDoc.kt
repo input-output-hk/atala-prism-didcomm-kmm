@@ -15,14 +15,18 @@ const val SERVICE_ROUTING_KEYS = "routingKeys"
 const val SERVICE_ACCEPT = "accept"
 
 @Serializable
-data class DIDDocPeerDID @JvmOverloads constructor(
+data class DIDDocPeerDID
+@JvmOverloads
+constructor(
     val did: String,
     val authentication: List<VerificationMethodPeerDID>,
     val keyAgreement: List<VerificationMethodPeerDID> = emptyList(),
     val service: List<Service>? = null
 ) {
-    val authenticationKids get() = authentication.map { it.id }
-    val agreementKids get() = keyAgreement.map { it.id }
+    val authenticationKids
+        get() = authentication.map { it.id }
+    val agreementKids
+        get() = keyAgreement.map { it.id }
 
     fun toDict(): Map<String, Any> {
         val res = mutableMapOf(

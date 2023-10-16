@@ -32,7 +32,6 @@ fun Json.encodeToString(vararg pairs: Pair<*, *>) = encodeToString(pairs.toMap()
 
 fun toJson(value: Any?): String {
     return Json.encodeToString(value.toJsonElement())
-    // GsonBuilder().create().toJson(value)
 }
 
 private fun extractFromJsonObject(jsonObject: JsonObject): Map<String, Any> {
@@ -78,7 +77,6 @@ fun fromJsonToList(value: String): List<Map<String, Any>> {
         throw Exception("")
     }
     return list
-    // return GsonBuilder().create().fromJson(value, object : TypeToken<List<Map<String, Any>>>() {}.type)
 }
 
 fun fromJsonToMap(value: String): Map<String, Any> {
@@ -89,5 +87,4 @@ fun fromJsonToMap(value: String): Map<String, Any> {
     } else {
         throw Exception("")
     }
-    // return GsonBuilder().create().fromJson(value, object : TypeToken<Map<String, Any>>() {}.type)
 }

@@ -52,7 +52,6 @@ internal fun encodeService(service: JSON): String {
         .replace(SERVICE_DIDCOMM_MESSAGING, ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING))
         .replace(SERVICE_ROUTING_KEYS, ServicePrefix.getValue(SERVICE_ROUTING_KEYS))
         .replace(SERVICE_ACCEPT, ServicePrefix.getValue(SERVICE_ACCEPT))
-    // Base64.encodeBase64URLSafe(serviceToEncode.toByteArray()).decodeToString()
     val encodedService = serviceToEncode.encodeToByteArray().base64UrlEncoded
     return ".${Numalgo2Prefix.SERVICE.prefix}$encodedService"
 }
