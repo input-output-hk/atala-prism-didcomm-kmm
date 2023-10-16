@@ -383,22 +383,22 @@ class TestDIDDocFromJson {
                 TestData(
                     DID_DOC_NUMALGO_O_BASE58,
                     VerificationMaterialFormatPeerDID.BASE58,
-                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
+                    VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     PublicKeyField.BASE58
                 ),
                 TestData(
                     DID_DOC_NUMALGO_O_MULTIBASE,
                     VerificationMaterialFormatPeerDID.MULTIBASE,
-                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
-                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                    VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
+                    VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                     PublicKeyField.MULTIBASE
                 ),
                 TestData(
                     DID_DOC_NUMALGO_O_JWK,
                     VerificationMaterialFormatPeerDID.JWK,
-                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-                    VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                    VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    VerificationMethodTypeAgreement.JsonWebKey2020,
                     PublicKeyField.JWK
                 )
             )
@@ -408,22 +408,22 @@ class TestDIDDocFromJson {
                 TestData(
                     DID_DOC_NUMALGO_2_BASE58,
                     VerificationMaterialFormatPeerDID.BASE58,
-                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
-                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
+                    VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     PublicKeyField.BASE58
                 ),
                 TestData(
                     DID_DOC_NUMALGO_2_MULTIBASE,
                     VerificationMaterialFormatPeerDID.MULTIBASE,
-                    VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
-                    VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                    VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
+                    VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                     PublicKeyField.MULTIBASE
                 ),
                 TestData(
                     DID_DOC_NUMALGO_2_JWK,
                     VerificationMaterialFormatPeerDID.JWK,
-                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-                    VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                    VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    VerificationMethodTypeAgreement.JsonWebKey2020,
                     PublicKeyField.JWK
                 )
             )

@@ -16,14 +16,14 @@ class TestCreateNumalgo2 {
         val VALID_X25519_KEY_BASE58 =
             VerificationMaterialAgreement(
                 value = "JhNWeSVLMYccCk7iopQW4guaSJTojqpMEELgSLhKwRr",
-                type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                 format = VerificationMaterialFormatPeerDID.BASE58
             )
 
         val VALID_X25519_KEY_MULTIBASE =
             VerificationMaterialAgreement(
                 value = "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc",
-                type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                 format = VerificationMaterialFormatPeerDID.MULTIBASE
             )
 
@@ -35,7 +35,7 @@ class TestCreateNumalgo2 {
                         "crv" to "X25519",
                         "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik",
                     ),
-                type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                type = VerificationMethodTypeAgreement.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
 
@@ -49,20 +49,20 @@ class TestCreateNumalgo2 {
                             "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik",
                         )
                     ),
-                type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                type = VerificationMethodTypeAgreement.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
 
         val VALID_ED25519_KEY_1_BASE58 =
             VerificationMaterialAuthentication(
                 value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                 format = VerificationMaterialFormatPeerDID.BASE58
             )
         val VALID_ED25519_KEY_1_MULTIBASE =
             VerificationMaterialAuthentication(
                 value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                 format = VerificationMaterialFormatPeerDID.MULTIBASE
             )
         val VALID_ED25519_KEY_1_JWK =
@@ -73,20 +73,20 @@ class TestCreateNumalgo2 {
                         "crv" to "Ed25519",
                         "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
                     ),
-                type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
 
         val VALID_ED25519_KEY_2_BASE58 =
             VerificationMaterialAuthentication(
                 value = "3M5RCDjPTWPkKSN3sxUmmMqHbmRPegYP1tjcKyrDbt9J",
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                 format = VerificationMaterialFormatPeerDID.BASE58
             )
         val VALID_ED25519_KEY_2_MULTIBASE =
             VerificationMaterialAuthentication(
                 value = "z6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg",
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                 format = VerificationMaterialFormatPeerDID.MULTIBASE
             )
         val VALID_ED25519_KEY_2_JWK =
@@ -97,7 +97,7 @@ class TestCreateNumalgo2 {
                         "crv" to "Ed25519",
                         "x" to "Itv8B__b1-Jos3LCpUe8EdTFGTCa_Dza6_3848P3R70",
                     ),
-                type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
 
@@ -310,7 +310,7 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAgreement(
                     value = "...",
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -335,12 +335,12 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "....",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "3M5RCDjPTWPkKSN3sxUmmMqHbmRPegYP1tjcKyrDbt9J",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -463,7 +463,7 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAgreement(
                     value = "JhNWeSVLMYcc0k7iopQW4guaSJTojqpMEELgSLhKwRr",
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -489,12 +489,12 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vA0h9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "3M5RCDjPTWPkKSN3sxUmmMqHbmRPegYP1tjcKyrDbt9J",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -517,7 +517,7 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAgreement(
                     value = "JhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWe",
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -542,7 +542,7 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAgreement(
                     value = "JhNWeSV",
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -567,12 +567,12 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "JhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWeSVJhNWe",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "3M5RCDjPTWPkKSN3sxUmmMqHbmRPegYP1tjcKyrDbt9J",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )
@@ -596,12 +596,12 @@ class TestCreateNumalgo2 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "JhNWeSV",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "3M5RCDjPTWPkKSN3sxUmmMqHbmRPegYP1tjcKyrDbt9J",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58
                 )
             )

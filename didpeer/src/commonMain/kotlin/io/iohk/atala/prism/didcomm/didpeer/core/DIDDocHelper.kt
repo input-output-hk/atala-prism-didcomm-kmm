@@ -26,22 +26,22 @@ import kotlinx.serialization.json.jsonPrimitive
 
 private val verTypeToField =
     mapOf(
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019 to PublicKeyField.BASE58,
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020 to PublicKeyField.MULTIBASE,
-        VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 to PublicKeyField.JWK,
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018 to PublicKeyField.BASE58,
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020 to PublicKeyField.MULTIBASE,
-        VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020 to PublicKeyField.JWK,
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2019 to PublicKeyField.BASE58,
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2020 to PublicKeyField.MULTIBASE,
+        VerificationMethodTypeAgreement.JsonWebKey2020 to PublicKeyField.JWK,
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2018 to PublicKeyField.BASE58,
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2020 to PublicKeyField.MULTIBASE,
+        VerificationMethodTypeAuthentication.JsonWebKey2020 to PublicKeyField.JWK,
     )
 
 private val verTypeToFormat =
     mapOf(
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019 to VerificationMaterialFormatPeerDID.BASE58,
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020 to VerificationMaterialFormatPeerDID.MULTIBASE,
-        VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 to VerificationMaterialFormatPeerDID.JWK,
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018 to VerificationMaterialFormatPeerDID.BASE58,
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020 to VerificationMaterialFormatPeerDID.MULTIBASE,
-        VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020 to VerificationMaterialFormatPeerDID.JWK,
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2019 to VerificationMaterialFormatPeerDID.BASE58,
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2020 to VerificationMaterialFormatPeerDID.MULTIBASE,
+        VerificationMethodTypeAgreement.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK,
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2018 to VerificationMaterialFormatPeerDID.BASE58,
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2020 to VerificationMaterialFormatPeerDID.MULTIBASE,
+        VerificationMethodTypeAuthentication.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK,
     )
 
 internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
@@ -83,8 +83,8 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
     val field = verTypeToField.getValue(verMaterialType)
     val format = verTypeToFormat.getValue(verMaterialType)
     val value =
-        if (verMaterialType is VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 ||
-            verMaterialType is VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
+        if (verMaterialType is VerificationMethodTypeAgreement.JsonWebKey2020 ||
+            verMaterialType is VerificationMethodTypeAuthentication.JsonWebKey2020
         ) {
             val jwkJson =
                 jsonObject[field.value]?.jsonObject
@@ -143,26 +143,26 @@ private fun getVerMethodType(jsonObject: JsonObject): VerificationMethodTypePeer
             ?: throw IllegalArgumentException("No 'type' field in method $jsonObject")
 
     return when (type) {
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019.value
-        -> VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2019.value
+        -> VerificationMethodTypeAgreement.X25519KeyAgreementKey2019
 
-        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020.value
-        -> VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020
+        VerificationMethodTypeAgreement.X25519KeyAgreementKey2020.value
+        -> VerificationMethodTypeAgreement.X25519KeyAgreementKey2020
 
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018.value
-        -> VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2018.value
+        -> VerificationMethodTypeAuthentication.ED25519VerificationKey2018
 
-        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020.value
-        -> VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020
+        VerificationMethodTypeAuthentication.ED25519VerificationKey2020.value
+        -> VerificationMethodTypeAuthentication.ED25519VerificationKey2020
 
-        VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020.value -> {
+        VerificationMethodTypeAuthentication.JsonWebKey2020.value -> {
             val v =
                 jsonObject[PublicKeyField.JWK.value]?.jsonObject
                     ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
             val crv =
                 v["crv"]?.toString()
                     ?: throw IllegalArgumentException("No 'crv' field in method $jsonObject")
-            if (crv == "X25519") VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 else VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
+            if (crv == "X25519") VerificationMethodTypeAgreement.JsonWebKey2020 else VerificationMethodTypeAuthentication.JsonWebKey2020
         }
 
         else ->

@@ -153,13 +153,13 @@ internal fun decodeMultibaseEncnumbasis(
                     Codec.X25519 ->
                         VerificationMaterialAgreement(
                             format = format,
-                            type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                            type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                             value = toBase58(decodedEncnumbasisWithoutPrefix)
                         )
                     Codec.ED25519 ->
                         VerificationMaterialAuthentication(
                             format = format,
-                            type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                            type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                             value = toBase58(decodedEncnumbasisWithoutPrefix)
                         )
                 }
@@ -168,24 +168,24 @@ internal fun decodeMultibaseEncnumbasis(
                     Codec.X25519 ->
                         VerificationMaterialAgreement(
                             format = format,
-                            type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                            type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                             value =
                                 toBase58Multibase(
                                     toMulticodec(
                                         decodedEncnumbasisWithoutPrefix,
-                                        VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020
+                                        VerificationMethodTypeAgreement.X25519KeyAgreementKey2020
                                     )
                                 )
                         )
                     Codec.ED25519 ->
                         VerificationMaterialAuthentication(
                             format = format,
-                            type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                            type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                             value =
                                 toBase58Multibase(
                                     toMulticodec(
                                         decodedEncnumbasisWithoutPrefix,
-                                        VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020
+                                        VerificationMethodTypeAuthentication.ED25519VerificationKey2020
                                     )
                                 )
                         )
@@ -195,17 +195,17 @@ internal fun decodeMultibaseEncnumbasis(
                     Codec.X25519 ->
                         VerificationMaterialAgreement(
                             format = format,
-                            type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
-                            value = toJwk(decodedEncnumbasisWithoutPrefix, VerificationMethodTypeAgreement.JSON_WEB_KEY_2020)
+                            type = VerificationMethodTypeAgreement.JsonWebKey2020,
+                            value = toJwk(decodedEncnumbasisWithoutPrefix, VerificationMethodTypeAgreement.JsonWebKey2020)
                         )
                     Codec.ED25519 ->
                         VerificationMaterialAuthentication(
                             format = format,
-                            type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                            type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                             value =
                                 toJwk(
                                     decodedEncnumbasisWithoutPrefix,
-                                    VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020
+                                    VerificationMethodTypeAuthentication.JsonWebKey2020
                                 )
                         )
                 }

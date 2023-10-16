@@ -74,7 +74,7 @@ class TestCreateNumalgo0 {
         val key =
             VerificationMaterialAuthentication(
                 value = "z78kqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
-                type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                 format = VerificationMaterialFormatPeerDID.MULTIBASE,
             )
         val ex =
@@ -89,12 +89,12 @@ class TestCreateNumalgo0 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
                 ),
                 VerificationMaterialAuthentication(
@@ -104,7 +104,7 @@ class TestCreateNumalgo0 {
                             "crv" to "Ed25519",
                             "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 ),
                 VerificationMaterialAuthentication(
@@ -116,7 +116,7 @@ class TestCreateNumalgo0 {
                                 "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
                             )
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 )
             )
@@ -125,12 +125,12 @@ class TestCreateNumalgo0 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "x8xB2pv7cw8q1Pd0DacS",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                 ),
                 VerificationMaterialAuthentication(
                     value = "zx8xB2pv7cw8q1Pd0DacS",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
                 )
             )
@@ -139,12 +139,12 @@ class TestCreateNumalgo0 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
                 ),
                 VerificationMaterialAuthentication(
@@ -154,7 +154,7 @@ class TestCreateNumalgo0 {
                             "crv" to "Ed25519",
                             "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm",
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 ),
                 VerificationMaterialAuthentication(
@@ -166,7 +166,7 @@ class TestCreateNumalgo0 {
                                 "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm",
                             )
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 )
             )
@@ -175,12 +175,12 @@ class TestCreateNumalgo0 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L77",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7VVV",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
                 ),
                 VerificationMaterialAuthentication(
@@ -190,7 +190,7 @@ class TestCreateNumalgo0 {
                             "crv" to "Ed25519",
                             "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7",
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 ),
                 VerificationMaterialAuthentication(
@@ -202,7 +202,7 @@ class TestCreateNumalgo0 {
                                 "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7",
                             )
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 )
             )
@@ -211,12 +211,12 @@ class TestCreateNumalgo0 {
             listOf(
                 VerificationMaterialAuthentication(
                     value = "",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                 ),
                 VerificationMaterialAuthentication(
                     value = "",
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
                 ),
                 VerificationMaterialAuthentication(
@@ -226,7 +226,7 @@ class TestCreateNumalgo0 {
                             "crv" to "Ed25519",
                             "x" to "",
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 ),
                 VerificationMaterialAuthentication(
@@ -238,7 +238,7 @@ class TestCreateNumalgo0 {
                                 "x" to "",
                             )
                         ),
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     format = VerificationMaterialFormatPeerDID.JWK,
                 )
             )

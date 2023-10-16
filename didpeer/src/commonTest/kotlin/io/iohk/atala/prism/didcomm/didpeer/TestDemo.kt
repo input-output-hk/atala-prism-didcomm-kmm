@@ -8,7 +8,7 @@ class TestDemo {
         val encryptionKeys =
             listOf(
                 VerificationMaterialAgreement(
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                     value = "DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s",
                 )
@@ -16,7 +16,7 @@ class TestDemo {
         val signingKeys =
             listOf(
                 VerificationMaterialAuthentication(
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
                 )

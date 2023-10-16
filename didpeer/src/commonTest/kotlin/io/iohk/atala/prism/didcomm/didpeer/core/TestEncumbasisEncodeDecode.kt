@@ -24,7 +24,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.BASE58,
                 VerificationMaterialAuthentication(
                     format = VerificationMaterialFormatPeerDID.BASE58,
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
                 )
             ),
@@ -33,7 +33,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.BASE58,
                 VerificationMaterialAgreement(
                     format = VerificationMaterialFormatPeerDID.BASE58,
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     value = "JhNWeSVLMYccCk7iopQW4guaSJTojqpMEELgSLhKwRr",
                 ),
             ),
@@ -42,7 +42,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.MULTIBASE,
                 VerificationMaterialAuthentication(
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
-                    type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
                 ),
             ),
@@ -51,7 +51,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.MULTIBASE,
                 VerificationMaterialAgreement(
                     format = VerificationMaterialFormatPeerDID.MULTIBASE,
-                    type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2020,
+                    type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                     value = "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc",
                 ),
             ),
@@ -60,7 +60,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.JWK,
                 VerificationMaterialAuthentication(
                     format = VerificationMaterialFormatPeerDID.JWK,
-                    type = VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                     value =
                         mapOf(
                             "kty" to "OKP",
@@ -74,7 +74,7 @@ internal class TestEncumbasisEncodeDecode {
                 VerificationMaterialFormatPeerDID.JWK,
                 VerificationMaterialAgreement(
                     format = VerificationMaterialFormatPeerDID.JWK,
-                    type = VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
+                    type = VerificationMethodTypeAgreement.JsonWebKey2020,
                     value =
                         mapOf(
                             "kty" to "OKP",

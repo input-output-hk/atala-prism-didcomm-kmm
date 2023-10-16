@@ -11,8 +11,8 @@ fun toJwk(publicKey: ByteArray, verMethodType: VerificationMethodTypePeerDID): M
     val x = publicKey.base64UrlEncoded
     val crv =
         when (verMethodType) {
-            VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020 -> "Ed25519"
-            VerificationMethodTypeAgreement.JSON_WEB_KEY_2020 -> "X25519"
+            VerificationMethodTypeAuthentication.JsonWebKey2020 -> "Ed25519"
+            VerificationMethodTypeAgreement.JsonWebKey2020 -> "X25519"
             else -> throw IllegalArgumentException("Unsupported JWK type ${verMethodType.value}")
         }
     return mapOf(
