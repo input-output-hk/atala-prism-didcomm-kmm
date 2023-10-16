@@ -17,6 +17,10 @@ Implementation of the [Peer DID method specification](https://identity.foundatio
 - Android
 - JVM
 
+This implementation is a re-implementation of this repo but for Kotlin Multiplatform
+
+- [peer-did-jvm](https://github.com/sicpa-dlab/peer-did-jvm)
+
 ## Example
 
 Example code:
