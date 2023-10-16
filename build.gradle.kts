@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 
 plugins {
     id("org.jetbrains.dokka") version "1.7.10"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     id("maven-publish")
 }
 
@@ -48,15 +47,6 @@ allprojects {
                 }
             }
         }
-    }
-}
-
-subprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-
-    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        verbose.set(true)
-        outputToConsole.set(true)
     }
 }
 
