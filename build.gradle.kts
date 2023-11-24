@@ -19,7 +19,7 @@ buildscript {
 }
 
 allprojects {
-    version = "1.0.4-alpha"
+    version = "1.0.5-alpha"
     group = "io.iohk.atala.prism.didcomm"
 
     repositories {
