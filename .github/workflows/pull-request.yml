@@ -1,5 +1,6 @@
 ---
-name: Build and Test
+# kics-scan ignore
+name: "Pull Request - Build & Test"
 
 defaults:
   run:
@@ -15,11 +16,7 @@ env:
   ATALA_GITHUB_ACTOR: ${{ secrets.ATALA_GITHUB_ACTOR }}
   ATALA_GITHUB_TOKEN: ${{ secrets.ATALA_GITHUB_TOKEN }}
 
-on:
-  push:
-    branches:
-      - "main"
-  pull_request:
+on: [pull_request]
 
 jobs:
 
@@ -54,13 +51,12 @@ jobs:
 
       - name: Gradle Build
         run: |
-          ./gradlew build test
+          ./gradlew allTests
 
-        # Container action is only supported on Linux
-#      - name: Publish test results
-#        if: always()
-#        uses: EnricoMi/publish-unit-test-result-action@v2
-#        with:
-#          files: "${{ github.workspace }}/atala-prism-sdk/build/test-results/testReleaseUnitTest/TEST-*.xml"
-#          comment_title: "Unit Test Results"
-#          check_name: "Unit Test Results"
+      - name: Publish test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        with:
+          files: "${{ github.workspace }}/atala-prism-sdk/build/test-results/testReleaseUnitTest/TEST-*.xml"
+          comment_title: "Unit Test Results"
+          check_name: "Unit Test Results"

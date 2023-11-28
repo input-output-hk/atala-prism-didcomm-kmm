@@ -8,7 +8,6 @@ val os: OperatingSystem = OperatingSystem.current()
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.7.20"
-    kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.dokka")
 }
@@ -66,21 +65,6 @@ kotlin {
                 this.useKarma {
                     this.useChromeHeadless()
                 }
-            }
-        }
-    }
-
-    if (os.isMacOsX) {
-        cocoapods {
-            this.summary = "Mercury DIDPeer Atala PRISM"
-            this.version = rootProject.version.toString()
-            this.authors = "IOG"
-            this.ios.deploymentTarget = "13.0"
-            this.osx.deploymentTarget = "12.0"
-            this.tvos.deploymentTarget = "13.0"
-            this.watchos.deploymentTarget = "8.0"
-            framework {
-                this.baseName = currentModuleName
             }
         }
     }
