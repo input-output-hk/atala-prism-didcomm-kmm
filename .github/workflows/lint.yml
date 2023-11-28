@@ -1,13 +1,12 @@
 ---
 # kics-scan ignore
-name: "Linter"
+name: "Pull Request - Mega Linter"
 
 defaults:
   run:
     shell: bash
 
-on:
-  pull_request:
+on: [pull_request]
 
 jobs:
   lint:

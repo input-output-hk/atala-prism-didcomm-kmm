@@ -7,5 +7,4 @@ pluginManagement {
 }
 
 rootProject.name = "DIDComm"
-include(":didcomm")
 include(":didpeer")
