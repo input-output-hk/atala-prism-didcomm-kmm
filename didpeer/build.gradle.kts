@@ -180,7 +180,7 @@ tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
         configureEach {
             jdkVersion.set(11)
-            languageVersion.set("1.7.20")
+            languageVersion.set("1.8.20")
             apiVersion.set("2.0")
             includes.from(
                 "docs/DIDPeer.md"
