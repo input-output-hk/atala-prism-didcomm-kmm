@@ -1,6 +1,7 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackOutput.Target
+import java.net.URL
 
 val currentModuleName: String = "DIDCommDIDPeer"
 val os: OperatingSystem = OperatingSystem.current()
@@ -169,8 +170,42 @@ android {
 }
 
 // Dokka implementation
-tasks.withType<DokkaTask> {
-    moduleName.set(project.name)
+tasks.withType<DokkaTask>().configureEach {
+    moduleName.set(currentModuleName)
     moduleVersion.set(rootProject.version.toString())
     description = "This is a Kotlin Multiplatform Library for Mercury DIDPeer"
+    pluginConfiguration<org.jetbrains.dokka.base.DokkaBase, org.jetbrains.dokka.base.DokkaBaseConfiguration> {
+        customAssets = listOf(rootDir.resolve("Logo.png"))
+    }
+    dokkaSourceSets {
+        configureEach {
+            jdkVersion.set(11)
+            languageVersion.set("1.7.20")
+            apiVersion.set("2.0")
+            includes.from(
+                "docs/DIDPeer.md"
+            )
+            sourceLink {
+                localDirectory.set(projectDir.resolve("src"))
+                remoteUrl.set(URL("https://github.com/input-output-hk/atala-prism-didcomm-kmm/tree/main/src"))
+                remoteLineSuffix.set("#L")
+            }
+            externalDocumentationLink {
+                url.set(URL("https://kotlinlang.org/api/latest/jvm/stdlib/"))
+            }
+            externalDocumentationLink {
+                url.set(URL("https://kotlinlang.org/api/kotlinx.serialization/"))
+            }
+            externalDocumentationLink {
+                url.set(URL("https://api.ktor.io/"))
+            }
+            externalDocumentationLink {
+                url.set(URL("https://kotlinlang.org/api/kotlinx-datetime/"))
+                packageListUrl.set(URL("https://kotlinlang.org/api/kotlinx-datetime/"))
+            }
+            externalDocumentationLink {
+                url.set(URL("https://kotlinlang.org/api/kotlinx.coroutines/"))
+            }
+        }
+    }
 }
