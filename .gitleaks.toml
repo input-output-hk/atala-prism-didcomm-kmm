@@ -23,7 +23,9 @@ paths = [
     '''Database.refactorlog''',
     '''vendor''',
     '''(?i).*(\/commonTest\/|\/androidTest\/|\/iosTest\/|\/jvmTest\/|\/jsTest\/).*''', # We use private keys data to test the cryptographic methods
-    '''README.md'''
+    '''README.md''',
+    '''DIDPeer.md''',
+    '''didpeer/docs/DIDPeer.md'''
 ]
 
 [[rules]]
