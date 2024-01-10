@@ -50,6 +50,7 @@ private fun buildDIDDocNumalgo2(peerDID: PeerDID, format: VerificationMaterialFo
     val keys = peerDID.drop(11)
 
     var service = ""
+    val encodedServicesJson = mutableListOf<JSON>()
     val authentications = mutableListOf<VerificationMethodPeerDID>()
     val keyAgreement = mutableListOf<VerificationMethodPeerDID>()
 
@@ -58,7 +59,9 @@ private fun buildDIDDocNumalgo2(peerDID: PeerDID, format: VerificationMaterialFo
         val value = it.drop(1)
 
         when (prefix) {
-            Numalgo2Prefix.SERVICE.prefix -> service = value
+            Numalgo2Prefix.SERVICE.prefix -> {
+                encodedServicesJson.add(value)
+            }
 
             Numalgo2Prefix.AUTHENTICATION.prefix -> {
                 val decodedEncumbasis = decodeMultibaseEncnumbasisAuth(value, format)
@@ -74,7 +77,7 @@ private fun buildDIDDocNumalgo2(peerDID: PeerDID, format: VerificationMaterialFo
         }
     }
 
-    val decodedService = doDecodeService(service, peerDID)
+    val decodedService = doDecodeService(encodedServicesJson, peerDID)
 
     return DIDDocPeerDID(
         did = peerDID,
@@ -110,7 +113,7 @@ private fun decodeMultibaseEncnumbasisAgreement(
     }
 }
 
-private fun doDecodeService(service: String, peerDID: String): List<Service>? {
+private fun doDecodeService(service: List<JSON>, peerDID: String): List<Service>? {
     try {
         return decodeService(service, peerDID)
     } catch (e: IllegalArgumentException) {

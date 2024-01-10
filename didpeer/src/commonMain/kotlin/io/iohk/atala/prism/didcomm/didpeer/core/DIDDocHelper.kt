@@ -31,7 +31,7 @@ private val verTypeToField =
         VerificationMethodTypeAgreement.JsonWebKey2020 to PublicKeyField.JWK,
         VerificationMethodTypeAuthentication.ED25519VerificationKey2018 to PublicKeyField.BASE58,
         VerificationMethodTypeAuthentication.ED25519VerificationKey2020 to PublicKeyField.MULTIBASE,
-        VerificationMethodTypeAuthentication.JsonWebKey2020 to PublicKeyField.JWK,
+        VerificationMethodTypeAuthentication.JsonWebKey2020 to PublicKeyField.JWK
     )
 
 private val verTypeToFormat =
@@ -41,7 +41,7 @@ private val verTypeToFormat =
         VerificationMethodTypeAgreement.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK,
         VerificationMethodTypeAuthentication.ED25519VerificationKey2018 to VerificationMaterialFormatPeerDID.BASE58,
         VerificationMethodTypeAuthentication.ED25519VerificationKey2020 to VerificationMaterialFormatPeerDID.MULTIBASE,
-        VerificationMethodTypeAuthentication.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK,
+        VerificationMethodTypeAuthentication.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK
     )
 
 internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
@@ -102,11 +102,11 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
         id = id,
         controller = controller,
         verMaterial =
-            VerificationMaterialPeerDID(
-                format = format,
-                type = verMaterialType,
-                value = value
-            )
+        VerificationMaterialPeerDID(
+            format = format,
+            type = verMaterialType,
+            value = value
+        )
     )
 }
 

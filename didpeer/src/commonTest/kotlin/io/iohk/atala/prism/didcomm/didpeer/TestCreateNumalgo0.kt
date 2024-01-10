@@ -75,7 +75,7 @@ class TestCreateNumalgo0 {
             VerificationMaterialAuthentication(
                 value = "z78kqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
                 type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                format = VerificationMaterialFormatPeerDID.MULTIBASE
             )
         val ex =
             assertFails {
@@ -90,34 +90,34 @@ class TestCreateNumalgo0 {
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
-                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                    format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                    format = VerificationMaterialFormatPeerDID.MULTIBASE
                 ),
                 VerificationMaterialAuthentication(
                     value =
+                    mapOf(
+                        "kty" to "OKP",
+                        "crv" to "Ed25519",
+                        "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA"
+                    ),
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    format = VerificationMaterialFormatPeerDID.JWK
+                ),
+                VerificationMaterialAuthentication(
+                    value =
+                    toJson(
                         mapOf(
                             "kty" to "OKP",
                             "crv" to "Ed25519",
-                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
-                        ),
+                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA"
+                        )
+                    ),
                     type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
-                ),
-                VerificationMaterialAuthentication(
-                    value =
-                        toJson(
-                            mapOf(
-                                "kty" to "OKP",
-                                "crv" to "Ed25519",
-                                "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
-                            )
-                        ),
-                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
+                    format = VerificationMaterialFormatPeerDID.JWK
                 )
             )
 
@@ -126,12 +126,12 @@ class TestCreateNumalgo0 {
                 VerificationMaterialAuthentication(
                     value = "x8xB2pv7cw8q1Pd0DacS",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
-                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "zx8xB2pv7cw8q1Pd0DacS",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                    format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                    format = VerificationMaterialFormatPeerDID.MULTIBASE
                 )
             )
 
@@ -140,34 +140,34 @@ class TestCreateNumalgo0 {
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
-                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                    format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                    format = VerificationMaterialFormatPeerDID.MULTIBASE
                 ),
                 VerificationMaterialAuthentication(
                     value =
+                    mapOf(
+                        "kty" to "OKP",
+                        "crv" to "Ed25519",
+                        "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm"
+                    ),
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    format = VerificationMaterialFormatPeerDID.JWK
+                ),
+                VerificationMaterialAuthentication(
+                    value =
+                    toJson(
                         mapOf(
                             "kty" to "OKP",
                             "crv" to "Ed25519",
-                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm",
-                        ),
+                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm"
+                        )
+                    ),
                     type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
-                ),
-                VerificationMaterialAuthentication(
-                    value =
-                        toJson(
-                            mapOf(
-                                "kty" to "OKP",
-                                "crv" to "Ed25519",
-                                "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_Ygm",
-                            )
-                        ),
-                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
+                    format = VerificationMaterialFormatPeerDID.JWK
                 )
             )
 
@@ -176,34 +176,34 @@ class TestCreateNumalgo0 {
                 VerificationMaterialAuthentication(
                     value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L77",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
-                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7VVV",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                    format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                    format = VerificationMaterialFormatPeerDID.MULTIBASE
                 ),
                 VerificationMaterialAuthentication(
                     value =
+                    mapOf(
+                        "kty" to "OKP",
+                        "crv" to "Ed25519",
+                        "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7"
+                    ),
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    format = VerificationMaterialFormatPeerDID.JWK
+                ),
+                VerificationMaterialAuthentication(
+                    value =
+                    toJson(
                         mapOf(
                             "kty" to "OKP",
                             "crv" to "Ed25519",
-                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7",
-                        ),
+                            "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7"
+                        )
+                    ),
                     type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
-                ),
-                VerificationMaterialAuthentication(
-                    value =
-                        toJson(
-                            mapOf(
-                                "kty" to "OKP",
-                                "crv" to "Ed25519",
-                                "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA7",
-                            )
-                        ),
-                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
+                    format = VerificationMaterialFormatPeerDID.JWK
                 )
             )
 
@@ -212,34 +212,34 @@ class TestCreateNumalgo0 {
                 VerificationMaterialAuthentication(
                     value = "",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
-                    format = VerificationMaterialFormatPeerDID.BASE58,
+                    format = VerificationMaterialFormatPeerDID.BASE58
                 ),
                 VerificationMaterialAuthentication(
                     value = "",
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
-                    format = VerificationMaterialFormatPeerDID.MULTIBASE,
+                    format = VerificationMaterialFormatPeerDID.MULTIBASE
                 ),
                 VerificationMaterialAuthentication(
                     value =
+                    mapOf(
+                        "kty" to "OKP",
+                        "crv" to "Ed25519",
+                        "x" to ""
+                    ),
+                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
+                    format = VerificationMaterialFormatPeerDID.JWK
+                ),
+                VerificationMaterialAuthentication(
+                    value =
+                    toJson(
                         mapOf(
                             "kty" to "OKP",
                             "crv" to "Ed25519",
-                            "x" to "",
-                        ),
+                            "x" to ""
+                        )
+                    ),
                     type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
-                ),
-                VerificationMaterialAuthentication(
-                    value =
-                        toJson(
-                            mapOf(
-                                "kty" to "OKP",
-                                "crv" to "Ed25519",
-                                "x" to "",
-                            )
-                        ),
-                    type = VerificationMethodTypeAuthentication.JsonWebKey2020,
-                    format = VerificationMaterialFormatPeerDID.JWK,
+                    format = VerificationMaterialFormatPeerDID.JWK
                 )
             )
     }

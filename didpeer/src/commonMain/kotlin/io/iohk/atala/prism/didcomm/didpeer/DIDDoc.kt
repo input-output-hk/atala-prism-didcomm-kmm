@@ -16,63 +16,61 @@ const val SERVICE_ACCEPT = "accept"
 
 @Serializable
 data class DIDDocPeerDID
-    @JvmOverloads
-    constructor(
-        val did: String,
-        val authentication: List<VerificationMethodPeerDID>,
-        val keyAgreement: List<VerificationMethodPeerDID> = emptyList(),
-        val service: List<Service>? = null
-    ) {
-        val authenticationKids
-            get() = authentication.map { it.id }
-        val agreementKids
-            get() = keyAgreement.map { it.id }
+@JvmOverloads
+constructor(
+    val did: String,
+    val authentication: List<VerificationMethodPeerDID>,
+    val keyAgreement: List<VerificationMethodPeerDID> = emptyList(),
+    val service: List<Service>? = null
+) {
+    val authenticationKids
+        get() = authentication.map { it.id }
+    val agreementKids
+        get() = keyAgreement.map { it.id }
 
-        fun toDict(): Map<String, Any> {
-            val res =
-                mutableMapOf(
-                    "id" to did,
-                    "authentication" to authentication.map { it.toDict() },
-                )
-            if (keyAgreement.isNotEmpty()) {
-                res["keyAgreement"] = keyAgreement.map { it.toDict() }
-            }
-            service?.let {
-                res["service"] =
-                    service.map {
-                        when (it) {
-                            is OtherService -> it.data
-                            is DIDCommServicePeerDID -> it.toDict()
-                        }
+    fun toDict(): Map<String, Any> {
+        val res =
+            mutableMapOf(
+                "id" to did,
+                "authentication" to authentication.map { it.toDict() }
+            )
+        if (keyAgreement.isNotEmpty()) {
+            res["keyAgreement"] = keyAgreement.map { it.toDict() }
+        }
+        service?.let {
+            res["service"] =
+                service.map {
+                    when (it) {
+                        is OtherService -> it.data
+                        is DIDCommServicePeerDID -> it.toDict()
                     }
-            }
-            return res
-        }
-
-        fun toJson(): String {
-            // Json.encodeToString(toDict().toJsonElement())
-            return toDict().toJsonElement().toString()
-        }
-
-        companion object {
-            /**
-             * Creates a new instance of DIDDocPeerDID from the given DID Doc JSON.
-             *
-             * @param value DID Doc JSON
-             * @throws MalformedPeerDIDDOcException if the input DID Doc JSON is not a valid peerdid DID Doc
-             * @return [DIDDocPeerDID] instance
-             */
-            fun fromJson(value: JSON): DIDDocPeerDID {
-                try {
-                    // Two ways
-                    return didDocFromJson(Json.parseToJsonElement(value).jsonObject)
-                    // return Json.decodeFromString<DIDDocPeerDID>(value)
-                } catch (e: Exception) {
-                    throw MalformedPeerDIDDOcException(e)
                 }
+        }
+        return res
+    }
+
+    fun toJson(): String {
+        return toDict().toJsonElement().toString()
+    }
+
+    companion object {
+        /**
+         * Creates a new instance of DIDDocPeerDID from the given DID Doc JSON.
+         *
+         * @param value DID Doc JSON
+         * @throws MalformedPeerDIDDOcException if the input DID Doc JSON is not a valid peerdid DID Doc
+         * @return [DIDDocPeerDID] instance
+         */
+        fun fromJson(value: JSON): DIDDocPeerDID {
+            try {
+                // Two ways
+                return didDocFromJson(Json.parseToJsonElement(value).jsonObject)
+            } catch (e: Exception) {
+                throw MalformedPeerDIDDOcException(e)
             }
         }
     }
+}
 
 @Serializable
 data class VerificationMethodPeerDID(
@@ -92,7 +90,7 @@ data class VerificationMethodPeerDID(
             "id" to id,
             "type" to verMaterial.type.value,
             "controller" to controller,
-            publicKeyField().value to verMaterial.value,
+            publicKeyField().value to verMaterial.value
         )
 }
 
@@ -111,7 +109,7 @@ data class DIDCommServicePeerDID(
         val res =
             mutableMapOf<String, Any>(
                 SERVICE_ID to id,
-                SERVICE_TYPE to type,
+                SERVICE_TYPE to type
             )
         res[SERVICE_ENDPOINT] = serviceEndpoint
         res[SERVICE_ROUTING_KEYS] = routingKeys

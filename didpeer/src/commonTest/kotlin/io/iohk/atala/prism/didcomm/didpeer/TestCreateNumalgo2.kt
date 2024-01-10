@@ -30,11 +30,11 @@ class TestCreateNumalgo2 {
         val VALID_X25519_KEY_JWK_DICT =
             VerificationMaterialAgreement(
                 value =
-                    mapOf(
-                        "kty" to "OKP",
-                        "crv" to "X25519",
-                        "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik",
-                    ),
+                mapOf(
+                    "kty" to "OKP",
+                    "crv" to "X25519",
+                    "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik"
+                ),
                 type = VerificationMethodTypeAgreement.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
@@ -42,13 +42,13 @@ class TestCreateNumalgo2 {
         val VALID_X25519_KEY_JWK_JSON =
             VerificationMaterialAgreement(
                 value =
-                    toJson(
-                        mapOf(
-                            "kty" to "OKP",
-                            "crv" to "X25519",
-                            "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik",
-                        )
-                    ),
+                toJson(
+                    mapOf(
+                        "kty" to "OKP",
+                        "crv" to "X25519",
+                        "x" to "BIiFcQEn3dfvB2pjlhOQQour6jXy9d5s2FKEJNTOJik"
+                    )
+                ),
                 type = VerificationMethodTypeAgreement.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
@@ -68,11 +68,11 @@ class TestCreateNumalgo2 {
         val VALID_ED25519_KEY_1_JWK =
             VerificationMaterialAuthentication(
                 value =
-                    mapOf(
-                        "kty" to "OKP",
-                        "crv" to "Ed25519",
-                        "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA",
-                    ),
+                mapOf(
+                    "kty" to "OKP",
+                    "crv" to "Ed25519",
+                    "x" to "owBhCbktDjkfS6PdQddT0D3yjSitaSysP3YimJ_YgmA"
+                ),
                 type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )
@@ -92,11 +92,11 @@ class TestCreateNumalgo2 {
         val VALID_ED25519_KEY_2_JWK =
             VerificationMaterialAuthentication(
                 value =
-                    mapOf(
-                        "kty" to "OKP",
-                        "crv" to "Ed25519",
-                        "x" to "Itv8B__b1-Jos3LCpUe8EdTFGTCa_Dza6_3848P3R70",
-                    ),
+                mapOf(
+                    "kty" to "OKP",
+                    "crv" to "Ed25519",
+                    "x" to "Itv8B__b1-Jos3LCpUe8EdTFGTCa_Dza6_3848P3R70"
+                ),
                 type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                 format = VerificationMaterialFormatPeerDID.JWK
             )

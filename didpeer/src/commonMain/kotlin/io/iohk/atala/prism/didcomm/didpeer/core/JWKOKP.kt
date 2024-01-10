@@ -18,7 +18,7 @@ fun toJwk(publicKey: ByteArray, verMethodType: VerificationMethodTypePeerDID): M
     return mapOf(
         "kty" to "OKP",
         "crv" to crv,
-        "x" to x,
+        "x" to x
     )
 }
 
