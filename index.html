@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DIDCommDIDPeer</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="images/Logo.png">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="index.html">
+                            DIDCommDIDPeer
+                    </a>
+            </div>
+            <div class="library-version">
+1.0.0            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":didpeer:dokkaHtml/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" id="content" pageIds="DIDCommDIDPeer::////PointingToDeclaration//-398363967">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span>DIDComm</span><wbr></wbr><span><span>DIDPeer</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":didpeer:dokkaHtml/commonMain"><p class="paragraph"><img alt="Atala Prism Logo" src="images/Logo.png"></p><p class="paragraph">Implementation of the <a href="https://identity.foundation/peer-did-method-spec/">Peer DID method specification</a> in Kotlin MultiPlatform with support for the following targets:</p><ul><li><p class="paragraph">JS</p></li><li><p class="paragraph">iOS</p></li><li><p class="paragraph">Android</p></li><li><p class="paragraph">JVM</p></li></ul><p class="paragraph">This implementation is a re-implementation of this repo but for Kotlin Multiplatform</p><ul><li><p class="paragraph"><a href="https://github.com/sicpa-dlab/peer-did-jvm">peer-did-jvm</a></p></li></ul><h2 class=""> Example</h2><p class="paragraph">Example code:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val encryptionKeys = listOf(<br>    VerificationMaterialAgreement(<br>        type = VerificationMethodTypeAgreement.X25519_KEY_AGREEMENT_KEY_2019,<br>        format = VerificationMaterialFormatPeerDID.BASE58,<br>        value = &quot;DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s&quot;,<br>    )<br>)<br>val signingKeys = listOf(<br>    VerificationMaterialAuthentication(<br>        type = VerificationMethodTypeAuthentication.ED25519_VERIFICATION_KEY_2018,<br>        format = VerificationMaterialFormatPeerDID.BASE58,<br>        value = &quot;ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7&quot;,<br>    )<br>)<br>val service =<br>    &quot;&quot;&quot;<br>        {<br>            &quot;type&quot;: &quot;DIDCommMessaging&quot;,<br>            &quot;serviceEndpoint&quot;: &quot;https://example.com/endpoint1&quot;,<br>            &quot;routingKeys&quot;: [&quot;did:example:somemediator#somekey1&quot;],<br>            &quot;accept&quot;: [&quot;didcomm/v2&quot;, &quot;didcomm/aip2;env=rfc587&quot;]<br>        }<br>    &quot;&quot;&quot;<br><br>val peerDIDAlgo0 = createPeerDIDNumalgo0(signingKeys[0])<br>val peerDIDAlgo2 = createPeerDIDNumalgo2(<br>    encryptionKeys, signingKeys, service<br>)<br><br>val didDocAlgo0Json = resolvePeerDID(peerDIDAlgo0)<br>val didDocAlgo2Json = resolvePeerDID(peerDIDAlgo2)<br><br>val didDocAlgo0 = DIDDocPeerDID.fromJson(didDocAlgo0Json)<br>val didDocAlgo2 = DIDDocPeerDID.fromJson(didDocAlgo2Json)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Example of DID documents:</p><h3 class=""> DIDDoc algo 0:</h3><div class="sample-container"><pre><code class="block lang-json" theme="idea">{<br>    &quot;id&quot;: &quot;did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&quot;,<br>    &quot;authentication&quot;: [<br>        {<br>            &quot;id&quot;: &quot;did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V#6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&quot;,<br>            &quot;type&quot;: &quot;Ed25519VerificationKey2020&quot;,<br>            &quot;controller&quot;: &quot;did:peer:0z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&quot;,<br>            &quot;publicKeyMultibase&quot;: &quot;ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7&quot;<br>        }<br>    ]<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class=""> did_doc_algo_2</h3><div class="sample-container"><pre><code class="block lang-json" theme="idea">{<br>   &quot;id&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0&quot;,<br>   &quot;authentication&quot;: [<br>       {<br>           &quot;id&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0#6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&quot;,<br>           &quot;type&quot;: &quot;Ed25519VerificationKey2020&quot;,<br>           &quot;controller&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0&quot;,<br>           &quot;publicKeyMultibase&quot;: &quot;z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V&quot;<br>       },<br>       {<br>           &quot;id&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0#6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg&quot;,<br>           &quot;type&quot;: &quot;Ed25519VerificationKey2020&quot;,<br>           &quot;controller&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0&quot;,<br>           &quot;publicKeyMultibase&quot;: &quot;z6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg&quot;<br>       }<br>   ],<br>   &quot;keyAgreement&quot;: [<br>       {<br>           &quot;id&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0#6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc&quot;,<br>           &quot;type&quot;: &quot;X25519KeyAgreementKey2020&quot;,<br>           &quot;controller&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0&quot;,<br>           &quot;publicKeyMultibase&quot;: &quot;z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc&quot;<br>       }<br>   ],<br>   &quot;service&quot;: [<br>       {<br>           &quot;id&quot;: &quot;did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0#didcommmessaging-0&quot;,<br>           &quot;type&quot;: &quot;DIDCommMessaging&quot;,<br>           &quot;serviceEndpoint&quot;: &quot;https://example.com/endpoint&quot;,<br>           &quot;routingKeys&quot;: [<br>               &quot;did:example:somemediator#somekey&quot;<br>           ],<br>           &quot;accept&quot;: [<br>                &quot;didcomm/v2&quot;, &quot;didcomm/aip2;env=rfc587&quot;<br>           ]<br>       }<br>   ]<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class=""> Assumptions and limitations</h2><ul><li><p class="paragraph">Only static layers <a href="https://identity.foundation/peer-did-method-spec/#layers-of-support">1, 2a, 2b</a> are supported</p></li><li><p class="paragraph">Only <code class="lang-kotlin">X25519</code> keys are support for key agreement</p></li><li><p class="paragraph">Only <code class="lang-kotlin">Ed25519</code> keys are support for authentication</p></li><li><p class="paragraph">Supported verification materials (input and in the resolved DID DOC):</p></li><ul><li><p class="paragraph">Default 2020 verification materials (<code class="lang-kotlin">Ed25519VerificationKey2020</code> and <code class="lang-kotlin">X25519KeyAgreementKey2020</code>) with multibase base58 (<code class="lang-kotlin">publicKeyMultibase</code>) public key encoding.</p></li><li><p class="paragraph">JWK (<code class="lang-kotlin">JsonWebKey2020</code>) using JWK (<code class="lang-kotlin">publicKeyJwk</code>) public key encoding</p></li><li><p class="paragraph">2018/2019 verification materials (<code class="lang-kotlin">Ed25519VerificationKey2018</code> and <code class="lang-kotlin">X25519KeyAgreementKey2019</code>) using base58 (<code class="lang-kotlin">publicKeyBase58</code>) public key encoding.</p></li></ul></ul></div></div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="211698507%2FPackages%2F-398363967" anchor-label="io.iohk.atala.prism.didcomm.didpeer" id="211698507%2FPackages%2F-398363967" data-filterable-set=":didpeer:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":didpeer:dokkaHtml/commonMain" data-filterable-set=":didpeer:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-d-i-d-comm-d-i-d-peer/io.iohk.atala.prism.didcomm.didpeer/index.html">io.iohk.atala.prism.didcomm.didpeer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="211698507%2FPackages%2F-398363967"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-260482394%2FPackages%2F-398363967" anchor-label="io.iohk.atala.prism.didcomm.didpeer.core" id="-260482394%2FPackages%2F-398363967" data-filterable-set=":didpeer:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":didpeer:dokkaHtml/commonMain" data-filterable-set=":didpeer:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-d-i-d-comm-d-i-d-peer/io.iohk.atala.prism.didcomm.didpeer.core/index.html">io.iohk.atala.prism.didcomm.didpeer.core</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-260482394%2FPackages%2F-398363967"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
