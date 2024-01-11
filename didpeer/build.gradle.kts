@@ -8,13 +8,23 @@ val os: OperatingSystem = OperatingSystem.current()
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("plugin.serialization") version "1.9.21"
     id("com.android.library")
     id("org.jetbrains.dokka")
 }
 
+/**
+ * The `javadocJar` variable is used to register a `Jar` task to generate a Javadoc JAR file.
+ * The Javadoc JAR file is created with the classifier "javadoc" and it includes the HTML documentation generated
+ * by the `dokkaHtml` task.
+ */
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaHtml)
+}
+
 kotlin {
-    android {
+    androidTarget {
         publishAllLibraryVariants()
     }
     jvm {
@@ -26,17 +36,28 @@ kotlin {
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
+        withSourcesJar()
+        publishing {
+            publications {
+                withType<MavenPublication> {
+                    artifact(javadocJar)
+                }
+            }
+        }
     }
-    if (os.isMacOsX) {
-        ios()
-//        tvos()
-//        watchos()
-//        macosX64()
-        if (System.getProperty("os.arch") != "x86_64") { // M1Chip
-            iosSimulatorArm64()
-//            tvosSimulatorArm64()
-//            watchosSimulatorArm64()
-//            macosArm64()
+    iosX64 {
+        binaries.framework {
+            baseName = currentModuleName
+        }
+    }
+    iosArm64 {
+        binaries.framework {
+            baseName = currentModuleName
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = currentModuleName
         }
     }
     js(IR) {
@@ -69,6 +90,7 @@ kotlin {
             }
         }
     }
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         val commonMain by getting {
@@ -77,8 +99,8 @@ kotlin {
                 implementation("io.iohk.atala.prism.apollo:varint:1.0.2")
                 implementation("io.iohk.atala.prism.apollo:base64:1.0.2")
                 implementation("io.iohk.atala.prism.apollo:base58:1.0.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("com.squareup.okio:okio:3.2.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+                implementation("com.squareup.okio:okio:3.6.0")
             }
         }
         val commonTest by getting {
@@ -93,62 +115,36 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13.2")
             }
         }
         val jsMain by getting
         val jsTest by getting
-        if (os.isMacOsX) {
-            val iosMain by getting
-            val iosTest by getting
-//            val tvosMain by getting
-//            val tvosTest by getting
-//            val watchosMain by getting
-//            val watchosTest by getting
-//            val macosX64Main by getting
-//            val macosX64Test by getting
-            if (System.getProperty("os.arch") != "x86_64") { // M1Chip
-                val iosSimulatorArm64Main by getting {
-                    this.dependsOn(iosMain)
-                }
-                val iosSimulatorArm64Test by getting {
-                    this.dependsOn(iosTest)
-                }
-//                val tvosSimulatorArm64Main by getting {
-//                    this.dependsOn(tvosMain)
-//                }
-//                val tvosSimulatorArm64Test by getting {
-//                    this.dependsOn(tvosTest)
-//                }
-//                val watchosSimulatorArm64Main by getting {
-//                    this.dependsOn(watchosMain)
-//                }
-//                val watchosSimulatorArm64Test by getting {
-//                    this.dependsOn(watchosTest)
-//                }
-//                val macosArm64Main by getting {
-//                    this.dependsOn(macosX64Main)
-//                }
-//                val macosArm64Test by getting {
-//                    this.dependsOn(macosX64Test)
-//                }
-            }
-        }
+        val iosMain by getting
+        val iosTest by getting
+
         all {
             languageSettings.optIn("kotlin.RequiresOptIn")
+        }
+    }
+
+    // Enable the export of KDoc (Experimental feature) to Generated Native targets (Apple, Linux, etc.)
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        compilations.getByName("main") {
+            compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
         }
     }
 }
 
 android {
     namespace = "io.iohk.atala.prism.didcomm.didpeer"
-    compileSdk = 32
+    compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 34
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -206,6 +202,22 @@ tasks.withType<DokkaTask>().configureEach {
             externalDocumentationLink {
                 url.set(URL("https://kotlinlang.org/api/kotlinx.coroutines/"))
             }
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.withType<PublishToMavenRepository> {
+        dependsOn(tasks.withType<Sign>())
+    }
+    if (tasks.findByName("lintAnalyzeDebug") != null) {
+        tasks.named("lintAnalyzeDebug") {
+            this.enabled = false
+        }
+    }
+    if (tasks.findByName("lintAnalyzeRelease") != null) {
+        tasks.named("lintAnalyzeRelease") {
+            this.enabled = false
         }
     }
 }

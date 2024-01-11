@@ -2,6 +2,7 @@
 
 package io.iohk.atala.prism.didcomm.didpeer.core
 
+import io.iohk.atala.prism.apollo.base64.base64PadDecoded
 import io.iohk.atala.prism.apollo.base64.base64UrlDecoded
 import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
 import io.iohk.atala.prism.didcomm.didpeer.JSON
@@ -36,7 +37,7 @@ private val ServicePrefix =
         SERVICE_ENDPOINT to "s",
         SERVICE_DIDCOMM_MESSAGING to "dm",
         SERVICE_ROUTING_KEYS to "r",
-        SERVICE_ACCEPT to "a",
+        SERVICE_ACCEPT to "a"
     )
 
 /**
@@ -68,21 +69,28 @@ internal fun encodeService(service: JSON): String {
  * @throws IllegalArgumentException if service is not correctly decoded
  * @return decoded service
  */
-internal fun decodeService(encodedService: JSON, peerDID: PeerDID): List<Service>? {
-    if (encodedService.isEmpty()) {
+internal fun decodeService(encodedServices: List<JSON>, peerDID: PeerDID): List<Service>? {
+    if (encodedServices.isEmpty()) {
         return null
     }
-    // Base64.decodeBase64(encodedService).decodeToString()
-    val decodedService = encodedService.base64UrlDecoded
+    val decodedServices = encodedServices.map { encodedService ->
+        encodedService.base64PadDecoded
+    }
+
+    val decodedServicesJson = if (decodedServices.size == 1) {
+        decodedServices[0]
+    } else {
+        decodedServices.joinToString(separator = ",", prefix = "[", postfix = "]")
+    }
 
     val serviceMapList =
         try {
-            fromJsonToList(decodedService)
+            fromJsonToList(decodedServicesJson)
         } catch (e: SerializationException) {
             try {
-                listOf(fromJsonToMap(decodedService))
+                listOf(fromJsonToMap(decodedServicesJson))
             } catch (e: SerializationException) {
-                throw IllegalArgumentException("Invalid JSON $decodedService")
+                throw IllegalArgumentException("Invalid JSON $decodedServices")
             }
         }
 
@@ -170,24 +178,24 @@ internal fun decodeMultibaseEncnumbasis(
                             format = format,
                             type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2020,
                             value =
-                                toBase58Multibase(
-                                    toMulticodec(
-                                        decodedEncnumbasisWithoutPrefix,
-                                        VerificationMethodTypeAgreement.X25519KeyAgreementKey2020
-                                    )
+                            toBase58Multibase(
+                                toMulticodec(
+                                    decodedEncnumbasisWithoutPrefix,
+                                    VerificationMethodTypeAgreement.X25519KeyAgreementKey2020
                                 )
+                            )
                         )
                     Codec.ED25519 ->
                         VerificationMaterialAuthentication(
                             format = format,
                             type = VerificationMethodTypeAuthentication.ED25519VerificationKey2020,
                             value =
-                                toBase58Multibase(
-                                    toMulticodec(
-                                        decodedEncnumbasisWithoutPrefix,
-                                        VerificationMethodTypeAuthentication.ED25519VerificationKey2020
-                                    )
+                            toBase58Multibase(
+                                toMulticodec(
+                                    decodedEncnumbasisWithoutPrefix,
+                                    VerificationMethodTypeAuthentication.ED25519VerificationKey2020
                                 )
+                            )
                         )
                 }
             VerificationMaterialFormatPeerDID.JWK ->
@@ -203,10 +211,10 @@ internal fun decodeMultibaseEncnumbasis(
                             format = format,
                             type = VerificationMethodTypeAuthentication.JsonWebKey2020,
                             value =
-                                toJwk(
-                                    decodedEncnumbasisWithoutPrefix,
-                                    VerificationMethodTypeAuthentication.JsonWebKey2020
-                                )
+                            toJwk(
+                                decodedEncnumbasisWithoutPrefix,
+                                VerificationMethodTypeAuthentication.JsonWebKey2020
+                            )
                         )
                 }
         }

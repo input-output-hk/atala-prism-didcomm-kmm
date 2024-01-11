@@ -21,7 +21,7 @@ fun isPeerDID(peerDID: String): Boolean {
         (
             "^did:peer:(([0](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))" +
                 "|(2((.[AEVID](z)([1-9a-km-zA-HJ-NP-Z]{46,47}))+(.(S)[0-9a-zA-Z=]*)*)))$"
-        ).toRegex()
+            ).toRegex()
     return regex.matches(peerDID)
 }
 

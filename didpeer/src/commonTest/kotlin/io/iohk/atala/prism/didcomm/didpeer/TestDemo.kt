@@ -10,7 +10,7 @@ class TestDemo {
                 VerificationMaterialAgreement(
                     type = VerificationMethodTypeAgreement.X25519KeyAgreementKey2019,
                     format = VerificationMaterialFormatPeerDID.BASE58,
-                    value = "DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s",
+                    value = "DmgBSHMqaZiYqwNMEJJuxWzsGGC8jUYADrfSdBrC6L8s"
                 )
             )
         val signingKeys =
@@ -18,7 +18,7 @@ class TestDemo {
                 VerificationMaterialAuthentication(
                     type = VerificationMethodTypeAuthentication.ED25519VerificationKey2018,
                     format = VerificationMaterialFormatPeerDID.BASE58,
-                    value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7",
+                    value = "ByHnpUCFb1vAfh9CFZ8ZkmUZguURW8nSw889hy6rD8L7"
                 )
             )
         val service =
