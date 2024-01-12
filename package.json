@@ -16,11 +16,10 @@
   },
   "homepage": "https://github.com/input-output-hk/atala-prism-didcomm-kmm#readme",
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.2",
-    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "gradle-semantic-release-plugin": "^1.7.4",
-    "semantic-release": "^19.0.5",
-    "semantic-release-slack-bot": "^3.5.3"
+    "gradle-semantic-release-plugin": "^1.9.0",
+    "semantic-release": "^22.0.12",
+    "semantic-release-slack-bot": "^4.0.2"
   }
 }

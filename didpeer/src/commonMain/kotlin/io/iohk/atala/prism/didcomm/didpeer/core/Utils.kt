@@ -11,6 +11,11 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Converts an object to its JSON representation as a [JsonElement].
+ *
+ * @return The JSON representation of the object as a [JsonElement].
+ */
 fun Any?.toJsonElement(): JsonElement {
     return when (this) {
         is Number -> JsonPrimitive(this)
@@ -24,18 +29,57 @@ fun Any?.toJsonElement(): JsonElement {
     }
 }
 
+/**
+ * Converts an array to a JSON array.
+ *
+ * @return The JSON array representation of the array.
+ */
 fun Array<*>.toJsonArray() = JsonArray(map { it.toJsonElement() })
 
+/**
+ * Converts an Iterable of any type to a JSON array.
+ *
+ * @return The JSON array representation of the Iterable.
+ */
 fun Iterable<*>.toJsonArray() = JsonArray(map { it.toJsonElement() })
 
+/**
+ * Converts the given [Map] object to a [JsonObject].
+ * Each key-value pair in the map is converted to a corresponding key-value pair in the JsonObject.
+ * The keys are converted to string representation using the [toString] method.
+ * The values are converted to [JsonElement] using the [toJsonElement] method.
+ *
+ * @return the converted JsonObject.
+ *
+ * @see toJsonElement
+ */
 fun Map<*, *>.toJsonObject() = JsonObject(mapKeys { it.key.toString() }.mapValues { it.value.toJsonElement() })
 
+/**
+ * Encodes the given pairs of key-value data into a JSON string representation.
+ *
+ * @param pairs the key-value pairs to encode
+ * @return the JSON string representation of the encoded data
+ */
 fun Json.encodeToString(vararg pairs: Pair<*, *>) = encodeToString(pairs.toMap().toJsonElement())
 
+/**
+ * Converts the given [value] to its JSON representation as a string.
+ *
+ * @param value the value to convert to JSON
+ * @return the JSON representation of the value as a string
+ */
 fun toJson(value: Any?): String {
     return Json.encodeToString(value.toJsonElement())
 }
 
+/**
+ * Extracts the key-value pairs from a given JsonObject and returns them as a Map.
+ *
+ * @param jsonObject the JsonObject from which to extract key-value pairs
+ * @return a Map containing the extracted key-value pairs
+ * @throws Exception if the value of any key in the JsonObject is not of type JsonPrimitive or JsonArray
+ */
 private fun extractFromJsonObject(jsonObject: JsonObject): Map<String, Any> {
     val currentMap = mutableMapOf<String, Any>()
     jsonObject.forEach {
@@ -63,24 +107,39 @@ private fun extractFromJsonObject(jsonObject: JsonObject): Map<String, Any> {
 }
 
 /**
- * I'm expecting the value to be a JSON array
+ * Converts a JSON string to a List of Maps.
+ *
+ * @param value The JSON string to convert.
+ * @return The converted List of Maps.
+ * @throws Exception if the JSON string is not valid.
  */
 fun fromJsonToList(value: String): List<Map<String, Any>> {
     val list: MutableList<Map<String, Any>> = mutableListOf()
-    val element = Json.parseToJsonElement(value)
-
-    if (element is JsonArray) {
-        for (jsonElement in element.jsonArray) {
-            list.add(extractFromJsonObject(jsonElement.jsonObject))
+    when (val element = Json.parseToJsonElement(value)) {
+        is JsonArray -> {
+            for (jsonElement in element.jsonArray) {
+                list.add(extractFromJsonObject(jsonElement.jsonObject))
+            }
         }
-    } else if (element is JsonObject) {
-        list.add(extractFromJsonObject(element.jsonObject))
-    } else {
-        throw Exception("")
+
+        is JsonObject -> {
+            list.add(extractFromJsonObject(element.jsonObject))
+        }
+
+        else -> {
+            throw Exception("")
+        }
     }
     return list
 }
 
+/**
+ * Converts a JSON string to a Map<String, Any> object.
+ *
+ * @param value The JSON string to convert.
+ * @return The converted Map<String, Any> object.
+ * @throws Exception if the JSON string is not valid or if the value of any key in the JSON object is not of type JsonPrimitive or JsonArray.
+ */
 fun fromJsonToMap(value: String): Map<String, Any> {
     val element = Json.parseToJsonElement(value)
 

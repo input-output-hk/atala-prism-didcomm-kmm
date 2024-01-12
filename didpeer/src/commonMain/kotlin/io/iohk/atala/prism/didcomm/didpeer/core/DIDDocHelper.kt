@@ -24,6 +24,9 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
+/**
+ * Maps verification method types to corresponding public key fields.
+ */
 private val verTypeToField =
     mapOf(
         VerificationMethodTypeAgreement.X25519KeyAgreementKey2019 to PublicKeyField.BASE58,
@@ -34,6 +37,9 @@ private val verTypeToField =
         VerificationMethodTypeAuthentication.JsonWebKey2020 to PublicKeyField.JWK
     )
 
+/**
+ * Mapping from verification method type to verification material format.
+ */
 private val verTypeToFormat =
     mapOf(
         VerificationMethodTypeAgreement.X25519KeyAgreementKey2019 to VerificationMaterialFormatPeerDID.BASE58,
@@ -44,6 +50,14 @@ private val verTypeToFormat =
         VerificationMethodTypeAuthentication.JsonWebKey2020 to VerificationMaterialFormatPeerDID.JWK
     )
 
+/**
+ * Creates a [DIDDocPeerDID] instance from a JSON object.
+ *
+ * @param jsonObject The JSON object representing the DID Doc.
+ * @return [DIDDocPeerDID] instance.
+ * @throws IllegalArgumentException if the JSON object is missing required fields.
+ */
+@Throws(IllegalArgumentException::class)
 internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
     val did =
         jsonObject["id"]?.jsonPrimitive?.content
@@ -70,7 +84,15 @@ internal fun didDocFromJson(jsonObject: JsonObject): DIDDocPeerDID {
     )
 }
 
+/**
+ * Converts a JSON object to a VerificationMethodPeerDID object.
+ *
+ * @param jsonObject The JSON object representing the verification method.
+ * @return A VerificationMethodPeerDID object.
+ * @throws IllegalArgumentException if the required fields are missing in the JSON object.
+ */
 @Suppress("IMPLICIT_CAST_TO_ANY")
+@Throws(IllegalArgumentException::class)
 internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMethodPeerDID {
     val id =
         jsonObject["id"]?.jsonPrimitive?.content
@@ -90,9 +112,6 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
                 jsonObject[field.value]?.jsonObject
                     ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
             jwkJson.toMap()
-//        val jwkJson = jsonObject[field.value]?.jsonObject?.toString()
-//            ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
-//        fromJsonToMap(jwkJson)
         } else {
             jsonObject[field.value]?.jsonPrimitive?.content
                 ?: throw IllegalArgumentException("No 'field' field in method $jsonObject")
@@ -110,8 +129,16 @@ internal fun verificationMethodFromJson(jsonObject: JsonObject): VerificationMet
     )
 }
 
+/**
+ * Parses a JSON object into a Service object.
+ *
+ * @param jsonObject The JSON object to parse.
+ * @return The parsed Service object.
+ * @throws IllegalArgumentException if the 'id' or 'type' field is missing in the JSON object.
+ */
+@Throws(IllegalArgumentException::class)
 internal fun serviceFromJson(jsonObject: JsonObject): Service {
-    val serviceMap = jsonObject.toMap() // fromJsonToMap(jsonObject.toString())
+    val serviceMap = jsonObject.toMap()
 
     val id =
         jsonObject[SERVICE_ID]?.jsonPrimitive?.content
@@ -137,6 +164,15 @@ internal fun serviceFromJson(jsonObject: JsonObject): Service {
     )
 }
 
+/**
+ * Retrieves the verification method type from the given JSON object.
+ *
+ * @param jsonObject The JSON object representing the verification method.
+ * @return The corresponding VerificationMethodTypePeerDID.
+ * @throws IllegalArgumentException If the 'type' field is missing in the method or if the verification
+ * method type is unknown.
+ */
+@Throws(IllegalArgumentException::class)
 private fun getVerMethodType(jsonObject: JsonObject): VerificationMethodTypePeerDID {
     val type =
         (jsonObject["type"] as JsonPrimitive).contentOrNull
