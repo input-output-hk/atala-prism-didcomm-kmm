@@ -21,6 +21,7 @@ import kotlin.jvm.JvmOverloads
  * @return resolved [DIDDocPeerDID] as JSON string
  */
 @JvmOverloads
+@Throws(IllegalArgumentException::class)
 fun resolvePeerDID(
     peerDID: PeerDID,
     format: VerificationMaterialFormatPeerDID = VerificationMaterialFormatPeerDID.MULTIBASE
@@ -37,6 +38,13 @@ fun resolvePeerDID(
     return didDoc.toJson()
 }
 
+/**
+ * Builds a PeerDID DID Document for the numalgo0 format.
+ *
+ * @param peerDID The PeerDID.
+ * @param format The format of verification material in the DID Document.
+ * @return The built DID Document.
+ */
 private fun buildDIDDocNumalgo0(peerDID: PeerDID, format: VerificationMaterialFormatPeerDID): DIDDocPeerDID {
     val inceptionKey = peerDID.substring(10)
     val decodedEncumbasis = decodeMultibaseEncnumbasisAuth(inceptionKey, format)
@@ -46,6 +54,15 @@ private fun buildDIDDocNumalgo0(peerDID: PeerDID, format: VerificationMaterialFo
     )
 }
 
+/**
+ * Builds a PeerDID DID Document using the Numalgo2 algorithm.
+ *
+ * @param peerDID The PeerDID identifier.
+ * @param format The format of the verification material.
+ * @return The built PeerDID DID Document.
+ * @throws IllegalArgumentException if the transform part of the PeerDID is unsupported.
+ */
+@Throws(IllegalArgumentException::class)
 private fun buildDIDDocNumalgo2(peerDID: PeerDID, format: VerificationMaterialFormatPeerDID): DIDDocPeerDID {
     val keys = peerDID.drop(11)
 
@@ -87,6 +104,15 @@ private fun buildDIDDocNumalgo2(peerDID: PeerDID, format: VerificationMaterialFo
     )
 }
 
+/**
+ * Decodes a multibase-encoded encnumbasis with a given verification material format.
+ *
+ * @param multibase The multibase-encoded encnumbasis to decode.
+ * @param format The verification material format.
+ * @throws MalformedPeerDIDException if the multibase is invalid.
+ * @return The decoded encnumbasis as verification material.
+ */
+@Throws(MalformedPeerDIDException::class)
 private fun decodeMultibaseEncnumbasisAuth(
     multibase: String,
     format: VerificationMaterialFormatPeerDID
@@ -100,6 +126,15 @@ private fun decodeMultibaseEncnumbasisAuth(
     }
 }
 
+/**
+ * Decodes a multibase encoded number basis agreement to a verification material for DID DOC.
+ *
+ * @param multibase The multibase string to decode.
+ * @param format The format of public keys in the DID DOC.
+ * @throws MalformedPeerDIDException If the multibase string is invalid.
+ * @return The decoded encnumbasis as verification material for DID DOC.
+ */
+@Throws(MalformedPeerDIDException::class)
 private fun decodeMultibaseEncnumbasisAgreement(
     multibase: String,
     format: VerificationMaterialFormatPeerDID
@@ -113,6 +148,15 @@ private fun decodeMultibaseEncnumbasisAgreement(
     }
 }
 
+/**
+ * Decodes the provided list of service JSON objects according to the PeerDID spec.
+ *
+ * @param service The list of JSON objects representing services.
+ * @param peerDID The PeerDID used as an ID.
+ * @return The decoded list of services.
+ * @throws MalformedPeerDIDException If the service is not correctly decoded.
+ */
+@Throws(MalformedPeerDIDException::class)
 private fun doDecodeService(service: List<JSON>, peerDID: String): List<Service>? {
     try {
         return decodeService(service, peerDID)

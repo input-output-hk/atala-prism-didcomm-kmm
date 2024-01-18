@@ -7,6 +7,15 @@ import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypePeerDID
 
+/**
+ * Converts a public key to a JSON Web Key (JWK).
+ *
+ * @param publicKey The public key to convert as a byte array.
+ * @param verMethodType The type of verification method.
+ * @return The public key converted to a JWK.
+ * @throws IllegalArgumentException if the JWK type is unsupported.
+ */
+@Throws(IllegalArgumentException::class)
 fun toJwk(publicKey: ByteArray, verMethodType: VerificationMethodTypePeerDID): Map<String, String> {
     val x = publicKey.base64UrlEncoded
     val crv =
@@ -22,6 +31,13 @@ fun toJwk(publicKey: ByteArray, verMethodType: VerificationMethodTypePeerDID): M
     )
 }
 
+/**
+ * Converts a given JWK object to a byte array.
+ * @param verMaterial the VerificationMaterialPeerDID object representing the JWK
+ * @throws IllegalArgumentException if the JWK key is invalid
+ * @return the JWK key as a byte array
+ */
+@Throws(IllegalArgumentException::class)
 fun fromJwk(verMaterial: VerificationMaterialPeerDID<out VerificationMethodTypePeerDID>): ByteArray {
     val jwkDict = if (verMaterial.value is Map<*, *>) verMaterial.value else fromJsonToMap(verMaterial.value.toString())
 

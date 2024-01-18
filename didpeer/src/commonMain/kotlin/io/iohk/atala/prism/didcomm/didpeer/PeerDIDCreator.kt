@@ -62,14 +62,10 @@ fun createPeerDIDNumalgo2(
 
     val encodedEncryptionKeysStr =
         encryptionKeys
-            .map { createMultibaseEncnumbasis(it) }
-            .map { ".${Numalgo2Prefix.KEY_AGREEMENT.prefix}$it" }
-            .joinToString("")
+            .map { createMultibaseEncnumbasis(it) }.joinToString("") { ".${Numalgo2Prefix.KEY_AGREEMENT.prefix}$it" }
     val encodedSigningKeysStr =
         signingKeys
-            .map { createMultibaseEncnumbasis(it) }
-            .map { ".${Numalgo2Prefix.AUTHENTICATION.prefix}$it" }
-            .joinToString("")
+            .map { createMultibaseEncnumbasis(it) }.joinToString("") { ".${Numalgo2Prefix.AUTHENTICATION.prefix}$it" }
     val encodedService = if (service.isNullOrEmpty()) "" else encodeService(service)
 
     return "did:peer:2$encodedEncryptionKeysStr$encodedSigningKeysStr$encodedService"

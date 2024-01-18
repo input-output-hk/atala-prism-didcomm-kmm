@@ -25,12 +25,22 @@ import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypePeerDID
 import kotlinx.serialization.SerializationException
 import kotlin.jvm.JvmName
 
+/**
+ * Enum class representing prefixes used in the Numalgo2 algorithm.
+ * Each prefix is associated with a character value.
+ *
+ * @property prefix The character value of the prefix
+ */
 internal enum class Numalgo2Prefix(val prefix: Char) {
     AUTHENTICATION('V'),
     KEY_AGREEMENT('E'),
     SERVICE('S')
 }
 
+/**
+ * Prefix values used for encoding and decoding services.
+ * Each prefix corresponds to a specific service type.
+ */
 private val ServicePrefix =
     mapOf(
         SERVICE_TYPE to "t",
@@ -61,14 +71,15 @@ internal fun encodeService(service: JSON): String {
 }
 
 /**
- * Decodes [encodedService] according to PeerDID spec
+ * Decodes [encodedServices] according to PeerDID spec
  * @see
  * <a href="https://identity.foundation/peer-did-method-spec/index.html#example-2-abnf-for-peer-dids">Specification</a>
- * @param [encodedService] service to decode
+ * @param [encodedServices] service to decode
  * @param [peerDID] PeerDID which will be used as an ID
  * @throws IllegalArgumentException if service is not correctly decoded
  * @return decoded service
  */
+@Throws(IllegalArgumentException::class)
 internal fun decodeService(encodedServices: List<JSON>, peerDID: PeerDID): List<Service>? {
     if (encodedServices.isEmpty()) {
         return null
@@ -134,6 +145,12 @@ internal fun createMultibaseEncnumbasis(key: VerificationMaterialPeerDID<out Ver
     return toBase58Multibase(toMulticodec(decodedKey, key.type))
 }
 
+/**
+ * Represents a decoded encnumbasis as verification material.
+ *
+ * @property encnumbasis The encnumbasis value.
+ * @property verMaterial The verification material.
+ */
 internal data class DecodedEncumbasis(
     val encnumbasis: String,
     val verMaterial: VerificationMaterialPeerDID<out VerificationMethodTypePeerDID>
@@ -222,6 +239,13 @@ internal fun decodeMultibaseEncnumbasis(
     return DecodedEncumbasis(encnumbasis, verMaterial)
 }
 
+/**
+ * Gets a verification method for a given DID and decoded encumbasis.
+ *
+ * @param did The DID string.
+ * @param decodedEncumbasis The decoded encumbasis object containing the encnumbasis and verification material.
+ * @return The verification method for the given DID and decoded encumbasis.
+ */
 internal fun getVerificationMethod(did: String, decodedEncumbasis: DecodedEncumbasis) =
     VerificationMethodPeerDID(
         id = "$did#${decodedEncumbasis.encnumbasis}",
