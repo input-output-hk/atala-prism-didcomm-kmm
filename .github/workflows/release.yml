@@ -8,7 +8,6 @@ defaults:
 
 env:
   JAVA_VERSION: 11
-  NODEJS_VERSION: 16.17.0
   ATALA_GITHUB_ACTOR: ${{ secrets.ATALA_GITHUB_ACTOR }}
   ATALA_GITHUB_TOKEN: ${{ secrets.ATALA_GITHUB_TOKEN }}
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -23,13 +22,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout the repo"
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ATALA_GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: "Validate Gradle Wrapper"
         uses: gradle/wrapper-validation-action@v1
 
-      - name: "Cache gradle"
+      - name: "Cache Gradle"
         uses: actions/cache@v3
         with:
           path: |
@@ -45,6 +46,11 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "zulu"
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
 
       - uses: crazy-max/ghaction-import-gpg@v5
         id: import_gpg
