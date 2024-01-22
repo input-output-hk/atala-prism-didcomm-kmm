@@ -99,6 +99,8 @@ private fun extractFromJsonObject(jsonObject: JsonObject): Map<String, Any> {
                 }
             }
             currentMap[it.key] = localArray
+        } else if (it.value is JsonObject) {
+            currentMap[it.key] = extractFromJsonObject(it.value as JsonObject)
         } else {
             throw Exception("")
         }

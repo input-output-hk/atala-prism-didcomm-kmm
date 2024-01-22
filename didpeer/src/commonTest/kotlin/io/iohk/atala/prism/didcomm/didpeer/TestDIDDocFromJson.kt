@@ -105,20 +105,19 @@ class TestDIDDocFromJson {
             val expectedService = (fromJson(testData.didDoc)["service"] as List<Map<String, Any>>)[0]
             assertTrue(service is DIDCommServicePeerDID)
             assertEquals((expectedService["id"] as JsonPrimitive).content, service.id)
-            assertEquals((expectedService["serviceEndpoint"] as JsonPrimitive).content, service.serviceEndpoint)
             assertEquals((expectedService["type"] as JsonPrimitive).content, service.type)
 
-            val expectedServiceRoutingKeys =
-                (expectedService["routingKeys"] as JsonArray).map {
-                    it.jsonPrimitive.content
-                }
-            assertEquals(expectedServiceRoutingKeys, service.routingKeys)
-
-            val expectedServiceAccept =
-                (expectedService["accept"] as JsonArray).map {
-                    it.jsonPrimitive.content
-                }
-            assertEquals(expectedServiceAccept, service.accept)
+            val expectedServiceEndpoint = expectedService["serviceEndpoint"] as Map<String, Any>
+            val expectedUri = (expectedServiceEndpoint["uri"] as JsonElement).jsonPrimitive.content
+            assertEquals(expectedUri, service.serviceEndpoint.uri)
+            val expectedRoutingKeys = (expectedServiceEndpoint["routingKeys"] as JsonArray).map {
+                it.jsonPrimitive.content
+            }
+            assertEquals(expectedRoutingKeys, service.serviceEndpoint.routingKeys)
+            val expectedAccept = (expectedServiceEndpoint["accept"] as JsonArray).map {
+                it.jsonPrimitive.content
+            }
+            assertEquals(expectedAccept, service.serviceEndpoint.accept)
 
             assertEquals(
                 listOf(
@@ -148,15 +147,15 @@ class TestDIDDocFromJson {
         assertEquals(
             (expectedService1["id"] as JsonElement).jsonPrimitive.content,
             service1.id
-        ) // (expectedService1["id"] as JsonElement).jsonPrimitive.content
-        assertEquals((expectedService1["serviceEndpoint"] as JsonElement).jsonPrimitive.content, service1.serviceEndpoint)
+        )
         assertEquals((expectedService1["type"] as JsonElement).jsonPrimitive.content, service1.type)
-        val expectedService1RoutingKeys =
-            (expectedService1["routingKeys"] as JsonArray).map {
-                it.jsonPrimitive.content
-            }
-        assertEquals(expectedService1RoutingKeys, service1.routingKeys)
-        assertTrue(service1.accept.isEmpty())
+        val expectedServiceEndpoint1 = expectedService1["serviceEndpoint"] as Map<String, Any>
+        assertEquals((expectedServiceEndpoint1["uri"] as JsonElement).jsonPrimitive.content, service1.serviceEndpoint.uri)
+        val expectedRoutingKeys: List<String> = (expectedServiceEndpoint1["routingKeys"] as JsonArray).map {
+            it.jsonPrimitive.content
+        }
+        assertEquals(expectedRoutingKeys, service1.serviceEndpoint.routingKeys)
+        assertTrue(service1.serviceEndpoint.accept.isEmpty())
 
         val service2 = didDoc.service!![1]
         val expectedService2 =
@@ -184,14 +183,11 @@ class TestDIDDocFromJson {
 
         val service = didDoc.service!![0]
         assertTrue(service is DIDCommServicePeerDID)
-        assertEquals(
-            "did:peer:2.Ez6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc.Vz6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V.Vz6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCJ9#didcommmessaging-0",
-            service.id
-        )
-        assertEquals("https://example.com/endpoint", service.serviceEndpoint)
+        assertEquals("#service", service.id)
+        assertEquals("https://example.com/endpoint", service.serviceEndpoint.uri)
         assertEquals("DIDCommMessaging", service.type)
-        assertTrue(service.routingKeys.isEmpty())
-        assertTrue(service.accept.isEmpty())
+        assertTrue(service.serviceEndpoint.routingKeys.isEmpty())
+        assertTrue(service.serviceEndpoint.accept.isEmpty())
     }
 
     @Test

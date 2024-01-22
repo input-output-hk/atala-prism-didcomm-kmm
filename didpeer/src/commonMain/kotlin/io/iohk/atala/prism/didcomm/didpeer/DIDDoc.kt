@@ -13,6 +13,7 @@ const val SERVICE_ENDPOINT = "serviceEndpoint"
 const val SERVICE_DIDCOMM_MESSAGING = "DIDCommMessaging"
 const val SERVICE_ROUTING_KEYS = "routingKeys"
 const val SERVICE_ACCEPT = "accept"
+const val SERVICE_URI = "uri"
 
 /**
  * Represents a PeerDID DID Document.
@@ -147,6 +148,19 @@ data class VerificationMethodPeerDID(
 sealed interface Service
 
 /**
+ * Represents a service endpoint.
+ *
+ * @property uri The URI of the endpoint.
+ * @property routingKeys The list of routing keys associated with the endpoint.
+ * @property accept The list of accepted content types for the endpoint.
+ */
+data class ServiceEndpoint(
+    val uri: String,
+    val routingKeys: List<String>,
+    val accept: List<String>
+)
+
+/**
  * Represents a service provided by a DID document.
  *
  * @property data The data of the service.
@@ -158,31 +172,27 @@ data class OtherService(val data: Map<String, Any>) : Service
  * @property id The ID of the service.
  * @property type The type of the service.
  * @property serviceEndpoint The service endpoint.
- * @property routingKeys The list of routing keys.
- * @property accept The list of accepted message types.
  */
 data class DIDCommServicePeerDID(
     val id: String,
     val type: String,
-    val serviceEndpoint: String,
-    val routingKeys: List<String>,
-    val accept: List<String>
+    val serviceEndpoint: ServiceEndpoint
 ) : Service {
     /**
      * Converts the DIDCommServicePeerDID object to a mutable map representation.
      *
      * @return The mutable map representation of the DIDCommServicePeerDID object.
      */
-    fun toDict(): MutableMap<String, Any> {
-        val res =
-            mutableMapOf<String, Any>(
-                SERVICE_ID to id,
-                SERVICE_TYPE to type
+    fun toDict(): Map<String, Any> {
+        return mapOf(
+            SERVICE_ID to id,
+            SERVICE_TYPE to type,
+            SERVICE_ENDPOINT to mapOf(
+                SERVICE_URI to serviceEndpoint.uri,
+                SERVICE_ROUTING_KEYS to serviceEndpoint.routingKeys,
+                SERVICE_ACCEPT to serviceEndpoint.accept
             )
-        res[SERVICE_ENDPOINT] = serviceEndpoint
-        res[SERVICE_ROUTING_KEYS] = routingKeys
-        res[SERVICE_ACCEPT] = accept
-        return res
+        )
     }
 }
 
