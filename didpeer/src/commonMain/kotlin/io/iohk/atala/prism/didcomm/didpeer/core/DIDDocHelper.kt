@@ -4,13 +4,12 @@ import io.iohk.atala.prism.didcomm.didpeer.DIDCommServicePeerDID
 import io.iohk.atala.prism.didcomm.didpeer.DIDDocPeerDID
 import io.iohk.atala.prism.didcomm.didpeer.OtherService
 import io.iohk.atala.prism.didcomm.didpeer.PublicKeyField
-import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ACCEPT
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_DIDCOMM_MESSAGING
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ENDPOINT
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ID
-import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ROUTING_KEYS
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_TYPE
 import io.iohk.atala.prism.didcomm.didpeer.Service
+import io.iohk.atala.prism.didcomm.didpeer.ServiceEndpoint
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMaterialFormatPeerDID
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMaterialPeerDID
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodPeerDID
@@ -151,16 +150,21 @@ internal fun serviceFromJson(jsonObject: JsonObject): Service {
         return OtherService(serviceMap)
     }
 
-    val endpoint = jsonObject[SERVICE_ENDPOINT]?.jsonPrimitive?.content
-    val routingKeys = jsonObject[SERVICE_ROUTING_KEYS]?.jsonArray?.map { it.jsonPrimitive.content }
-    val accept = jsonObject[SERVICE_ACCEPT]?.jsonArray?.map { it.jsonPrimitive.content }
+    val serviceEndpointObject = jsonObject[SERVICE_ENDPOINT]?.jsonObject
+    val uri = serviceEndpointObject?.get("uri")?.jsonPrimitive?.content ?: ""
+    val routingKeys = serviceEndpointObject?.get("routingKeys")?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
+    val accept = serviceEndpointObject?.get("accept")?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
+
+    val serviceEndpoint = ServiceEndpoint(
+        uri = uri,
+        routingKeys = routingKeys,
+        accept = accept
+    )
 
     return DIDCommServicePeerDID(
         id = id,
         type = type,
-        serviceEndpoint = endpoint ?: "",
-        routingKeys = routingKeys ?: emptyList(),
-        accept = accept ?: emptyList()
+        serviceEndpoint = serviceEndpoint
     )
 }
 

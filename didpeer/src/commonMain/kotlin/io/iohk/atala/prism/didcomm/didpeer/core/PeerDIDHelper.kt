@@ -3,7 +3,6 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
 import io.iohk.atala.prism.apollo.base64.base64PadDecoded
-import io.iohk.atala.prism.apollo.base64.base64UrlDecoded
 import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
 import io.iohk.atala.prism.didcomm.didpeer.JSON
 import io.iohk.atala.prism.didcomm.didpeer.OtherService
@@ -13,6 +12,7 @@ import io.iohk.atala.prism.didcomm.didpeer.SERVICE_DIDCOMM_MESSAGING
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ENDPOINT
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_ROUTING_KEYS
 import io.iohk.atala.prism.didcomm.didpeer.SERVICE_TYPE
+import io.iohk.atala.prism.didcomm.didpeer.SERVICE_URI
 import io.iohk.atala.prism.didcomm.didpeer.Service
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMaterialAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMaterialAuthentication
@@ -23,6 +23,10 @@ import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypePeerDID
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 import kotlin.jvm.JvmName
 
 /**
@@ -47,25 +51,62 @@ private val ServicePrefix =
         SERVICE_ENDPOINT to "s",
         SERVICE_DIDCOMM_MESSAGING to "dm",
         SERVICE_ROUTING_KEYS to "r",
-        SERVICE_ACCEPT to "a"
+        SERVICE_ACCEPT to "a",
+        SERVICE_URI to "uri"
     )
 
 /**
- * Encodes [service] according to the second algorithm.
- * For this type of algorithm DIDDoc can be obtained from PeerDID
- * @see <a href="https://identity.foundation/peer-did-method-spec/index.html#generation-method">Specification</a>
- * @param [service] service to encode
- * @return encoded [service]
+ * Encodes a service based on the provided JSON string.
+ *
+ * @param service The JSON string representing the service to encode.
+ * @return The encoded service string.
+ * @throws IllegalArgumentException If the JSON format is invalid.
+ *
+ * @see <a href="https://identity.foundation/peer-did-method-spec/#method-2-multiple-inception-key-without-doc">To encode a service</a>
  */
+@Throws(IllegalArgumentException::class)
 internal fun encodeService(service: JSON): String {
     validateJson(service)
-    val serviceToEncode =
-        service.replace(Regex("[\n\t\\s]*"), "")
-            .replace(SERVICE_TYPE, ServicePrefix.getValue(SERVICE_TYPE))
-            .replace(SERVICE_ENDPOINT, ServicePrefix.getValue(SERVICE_ENDPOINT))
-            .replace(SERVICE_DIDCOMM_MESSAGING, ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING))
-            .replace(SERVICE_ROUTING_KEYS, ServicePrefix.getValue(SERVICE_ROUTING_KEYS))
-            .replace(SERVICE_ACCEPT, ServicePrefix.getValue(SERVICE_ACCEPT))
+    val trimmedService = service.trim()
+    return when {
+        trimmedService.startsWith("[") -> {
+            /**
+             * Process each service object individually if 'serviceEndpoint' is a JsonObject
+             *
+             */
+            val jsonArray = Json.parseToJsonElement(trimmedService).jsonArray
+            val firstElement = jsonArray.firstOrNull()?.jsonObject
+            val isServiceEndpointObject = firstElement?.get("serviceEndpoint") is JsonObject
+
+            if (isServiceEndpointObject) { // New Peer Did Spec
+                jsonArray.joinToString(separator = "") { jsonElement ->
+                    encodeIndividualService(jsonElement.toString())
+                }
+            } else {
+                // Old approach combine service encoded
+                encodeIndividualService(trimmedService)
+            }
+        }
+        trimmedService.startsWith("{") -> {
+            encodeIndividualService(trimmedService)
+        }
+        else -> throw IllegalArgumentException("Invalid JSON format")
+    }
+}
+
+/**
+ * Encodes an individual service object according to the second algorithm.
+ *
+ * @param service The service object to encode
+ * @return The encoded service string
+ */
+fun encodeIndividualService(service: JSON): String {
+    val serviceToEncode = service.replace(Regex("[\n\t\\s]*"), "")
+        .replace(SERVICE_TYPE, ServicePrefix.getValue(SERVICE_TYPE))
+        .replace(SERVICE_ENDPOINT, ServicePrefix.getValue(SERVICE_ENDPOINT))
+        .replace(SERVICE_DIDCOMM_MESSAGING, ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING))
+        .replace(SERVICE_ROUTING_KEYS, ServicePrefix.getValue(SERVICE_ROUTING_KEYS))
+        .replace(SERVICE_ACCEPT, ServicePrefix.getValue(SERVICE_ACCEPT))
     val encodedService = serviceToEncode.encodeToByteArray().base64UrlEncoded
     return ".${Numalgo2Prefix.SERVICE.prefix}$encodedService"
 }
@@ -113,14 +154,39 @@ internal fun decodeService(encodedServices: List<JSON>, peerDID: PeerDID): List<
         val serviceType =
             serviceMap.getValue(ServicePrefix.getValue(SERVICE_TYPE)).toString()
                 .replace(ServicePrefix.getValue(SERVICE_DIDCOMM_MESSAGING), SERVICE_DIDCOMM_MESSAGING)
+        val serviceId = if (serviceMapList.size > 1) {
+            if (serviceNumber == 0) {
+                "#service"
+            } else {
+                "#service-$serviceNumber"
+            }
+        } else {
+            "#service"
+        }
+
+        val serviceEndpointMap = mutableMapOf<String, Any>()
+        when (val serviceEndpointValue = serviceMap[ServicePrefix.getValue(SERVICE_ENDPOINT)]) {
+            is String -> {
+                serviceMap[ServicePrefix.getValue(SERVICE_ENDPOINT)]?.let { serviceEndpointMap.put(SERVICE_URI, it) }
+                serviceMap[ServicePrefix.getValue(SERVICE_ROUTING_KEYS)]?.let { serviceEndpointMap.put(SERVICE_ROUTING_KEYS, it) }
+                serviceMap[ServicePrefix.getValue(SERVICE_ACCEPT)]?.let { serviceEndpointMap.put(SERVICE_ACCEPT, it) }
+            }
+            is Map<*, *> -> {
+                serviceEndpointValue[ServicePrefix.getValue(SERVICE_URI)]?.let { serviceEndpointMap.put(SERVICE_URI, it) }
+                serviceEndpointValue[ServicePrefix.getValue(SERVICE_ROUTING_KEYS)]?.let { serviceEndpointMap.put(SERVICE_ROUTING_KEYS, it) }
+                serviceEndpointValue[ServicePrefix.getValue(SERVICE_ACCEPT)]?.let { serviceEndpointMap.put(SERVICE_ACCEPT, it) }
+            }
+            else -> {
+                throw IllegalArgumentException("Service doesn't contain a valid Endpoint")
+            }
+        }
+
         val service =
             mutableMapOf<String, Any>(
-                "id" to "$peerDID#${serviceType.lowercase()}-$serviceNumber",
-                "type" to serviceType
+                "id" to serviceId,
+                "type" to serviceType,
+                "serviceEndpoint" to serviceEndpointMap
             )
-        serviceMap[ServicePrefix.getValue(SERVICE_ENDPOINT)]?.let { service.put(SERVICE_ENDPOINT, it) }
-        serviceMap[ServicePrefix.getValue(SERVICE_ROUTING_KEYS)]?.let { service.put(SERVICE_ROUTING_KEYS, it) }
-        serviceMap[ServicePrefix.getValue(SERVICE_ACCEPT)]?.let { service.put(SERVICE_ACCEPT, it) }
 
         OtherService(service)
     }.toList()
@@ -242,13 +308,14 @@ internal fun decodeMultibaseEncnumbasis(
 /**
  * Gets a verification method for a given DID and decoded encumbasis.
  *
- * @param did The DID string.
+ * @param keyId The ID of the key.
+ * @param did The DID associated with the verification method.
  * @param decodedEncumbasis The decoded encumbasis object containing the encnumbasis and verification material.
- * @return The verification method for the given DID and decoded encumbasis.
+ * @return The verification method.
  */
-internal fun getVerificationMethod(did: String, decodedEncumbasis: DecodedEncumbasis) =
+internal fun getVerificationMethod(keyId: Int, did: String, decodedEncumbasis: DecodedEncumbasis) =
     VerificationMethodPeerDID(
-        id = "$did#${decodedEncumbasis.encnumbasis}",
+        id = "$did#key-$keyId",
         controller = did,
         verMaterial = decodedEncumbasis.verMaterial
     )
