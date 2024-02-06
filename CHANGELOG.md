@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/input-output-hk/atala-prism-didcomm-kmm/compare/v1.0.0...v1.1.0) (2024-02-06)
+
+
+### Features
+
+* Update peer-did creation and resolution inline with … ([#14](https://github.com/input-output-hk/atala-prism-didcomm-kmm/issues/14)) ([cb52a8d](https://github.com/input-output-hk/atala-prism-didcomm-kmm/commit/cb52a8d75420f6a62315357e2a26b3b6d86d92a1))
+
 # 1.0.0 (2024-01-19)
 
 
