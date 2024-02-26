@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/input-output-hk/atala-prism-didcomm-kmm/compare/v1.1.0...v1.1.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* remove id from diddoc service encoding ([#17](https://github.com/input-output-hk/atala-prism-didcomm-kmm/issues/17)) ([2298cfc](https://github.com/input-output-hk/atala-prism-didcomm-kmm/commit/2298cfca9ef2b59676b52736f4491c8e539f3404))
+
 # [1.1.0](https://github.com/input-output-hk/atala-prism-didcomm-kmm/compare/v1.0.0...v1.1.0) (2024-02-06)
 
 
