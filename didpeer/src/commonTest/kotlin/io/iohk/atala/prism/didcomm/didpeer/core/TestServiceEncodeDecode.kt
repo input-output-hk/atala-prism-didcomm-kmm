@@ -13,6 +13,7 @@ class TestServiceEncodeDecode {
             encodeService(
                 """
                         {
+                            "id": "id",
                             "type": "DIDCommMessaging",
                             "serviceEndpoint": "https://example.com/endpoint",
                             "routingKeys": ["did:example:somemediator#somekey"],
@@ -56,6 +57,7 @@ class TestServiceEncodeDecode {
             encodeService(
                 """
                         {
+                          "id": "id",
                           "type": "DIDCommMessaging",
                           "serviceEndpoint": {
                             "uri": "http://example.com/didcomm",
@@ -204,5 +206,19 @@ class TestServiceEncodeDecode {
             PEER_DID_NUMALGO_2
         )
         assertEquals(expected, service)
+    }
+
+    @Test
+    fun testEncodeIndividualService_whenContainsId_thenEncodedServiceHasNoId() {
+        val service = encodeIndividualService("""
+                        {
+                            "id": "id",
+                            "type": "DIDCommMessaging",
+                            "serviceEndpoint": "https://example.com/endpoint",
+                            "routingKeys": ["did:example:somemediator#somekey"],
+                            "accept": ["didcomm/v2", "didcomm/aip2;env=rfc587"]
+                        }
+                        """)
+        assertEquals(".SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInIiOlsiZGlkOmV4YW1wbGU6c29tZW1lZGlhdG9yI3NvbWVrZXkiXSwiYSI6WyJkaWRjb21tL3YyIiwiZGlkY29tbS9haXAyO2Vudj1yZmM1ODciXX0", service)
     }
 }
