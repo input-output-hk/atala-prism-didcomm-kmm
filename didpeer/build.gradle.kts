@@ -95,12 +95,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.iohk.atala.prism.apollo:multibase:1.0.2")
-                implementation("io.iohk.atala.prism.apollo:varint:1.0.2")
-                implementation("io.iohk.atala.prism.apollo:base64:1.0.2")
-                implementation("io.iohk.atala.prism.apollo:base58:1.0.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-                implementation("com.squareup.okio:okio:3.6.0")
+                implementation("com.squareup.okio:okio:3.7.0")
+                implementation("com.ionspin.kotlin:bignum:0.3.9")
             }
         }
         val commonTest by getting {
@@ -144,11 +141,10 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     /**
      * Because Software Components will not be created automatically for Maven publishing from
@@ -175,8 +171,8 @@ tasks.withType<DokkaTask>().configureEach {
     }
     dokkaSourceSets {
         configureEach {
-            jdkVersion.set(11)
-            languageVersion.set("1.8.20")
+            jdkVersion.set(17)
+            languageVersion.set("1.9.22")
             apiVersion.set("2.0")
             includes.from(
                 "docs/DIDPeer.md"
@@ -209,15 +205,5 @@ tasks.withType<DokkaTask>().configureEach {
 afterEvaluate {
     tasks.withType<PublishToMavenRepository> {
         dependsOn(tasks.withType<Sign>())
-    }
-    if (tasks.findByName("lintAnalyzeDebug") != null) {
-        tasks.named("lintAnalyzeDebug") {
-            this.enabled = false
-        }
-    }
-    if (tasks.findByName("lintAnalyzeRelease") != null) {
-        tasks.named("lintAnalyzeRelease") {
-            this.enabled = false
-        }
     }
 }

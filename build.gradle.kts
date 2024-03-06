@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import java.util.Base64
 
 val publishedMavenId: String = "io.iohk.atala.prism.didcomm"
@@ -8,6 +6,8 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
     id("maven-publish")
     id("signing")
+    kotlin("jvm") version "1.9.22"
+    id("com.android.library") version "8.1.4" apply false
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0-rc-1"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
@@ -20,8 +20,13 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
-        classpath("com.android.tools.build:gradle:7.2.2")
         classpath("org.jetbrains.dokka:dokka-base:1.9.10")
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -100,30 +105,24 @@ allprojects {
                         url.set("https://github.com/input-output-hk/atala-prism-didcomm-kmm")
                     }
                 }
-                signing {
-                    val base64EncodedAsciiArmoredSigningKey: String =
-                        System.getenv("BASE64_ARMORED_GPG_SIGNING_KEY_MAVEN") ?: ""
-                    val signingKeyPassword: String =
-                        System.getenv("SIGNING_KEY_PASSWORD") ?: ""
-                    useInMemoryPgpKeys(
-                        String(
-                            Base64.getDecoder().decode(
-                                base64EncodedAsciiArmoredSigningKey.toByteArray()
+                if (System.getenv("BASE64_ARMORED_GPG_SIGNING_KEY_MAVEN") != null) {
+                    if (System.getenv("BASE64_ARMORED_GPG_SIGNING_KEY_MAVEN").isNotBlank()) {
+                        signing {
+                            val base64EncodedAsciiArmoredSigningKey: String =
+                                System.getenv("BASE64_ARMORED_GPG_SIGNING_KEY_MAVEN") ?: ""
+                            val signingKeyPassword: String =
+                                System.getenv("SIGNING_KEY_PASSWORD") ?: ""
+                            useInMemoryPgpKeys(
+                                String(
+                                    Base64.getDecoder().decode(
+                                        base64EncodedAsciiArmoredSigningKey.toByteArray()
+                                    )
+                                ),
+                                signingKeyPassword
                             )
-                        ),
-                        signingKeyPassword
-                    )
-                    sign(this@withType)
-                }
-            }
-        }
-        repositories {
-            maven {
-                this.name = "GitHubPackages"
-                this.url = uri("https://maven.pkg.github.com/input-output-hk/atala-prism-didcomm-kmm")
-                credentials {
-                    this.username = System.getenv("ATALA_GITHUB_ACTOR")
-                    this.password = System.getenv("ATALA_GITHUB_TOKEN")
+                            sign(this@withType)
+                        }
+                    }
                 }
             }
         }
@@ -133,10 +132,6 @@ allprojects {
         verbose.set(true)
         outputToConsole.set(true)
     }
-}
-
-rootProject.plugins.withType(NodeJsRootPlugin::class.java) {
-    rootProject.extensions.getByType(NodeJsRootExtension::class.java).nodeVersion = "16.17.0"
 }
 
 nexusPublishing {

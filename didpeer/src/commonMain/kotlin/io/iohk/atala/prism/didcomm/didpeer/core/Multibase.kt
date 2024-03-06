@@ -1,8 +1,8 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
-import io.iohk.atala.prism.apollo.base58.base58BtcDecodedBytes
-import io.iohk.atala.prism.apollo.base58.base58BtcEncoded
-import io.iohk.atala.prism.apollo.multibase.MultiBase
+import io.iohk.atala.prism.didcomm.didpeer.base58.base58BtcDecodedBytes
+import io.iohk.atala.prism.didcomm.didpeer.base58.base58BtcEncoded
+import io.iohk.atala.prism.didcomm.didpeer.multibase.MultiBase
 
 /**
  * Converts a byte array to a base58 multibase encoding.

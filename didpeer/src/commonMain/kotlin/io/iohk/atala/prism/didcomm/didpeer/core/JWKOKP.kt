@@ -1,7 +1,7 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
-import io.iohk.atala.prism.apollo.base64.base64UrlDecodedBytes
-import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
+import io.iohk.atala.prism.didcomm.didpeer.base64.base64UrlDecodedBytes
+import io.iohk.atala.prism.didcomm.didpeer.base64.base64UrlEncoded
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMaterialPeerDID
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAuthentication
