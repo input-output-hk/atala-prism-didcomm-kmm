@@ -2,8 +2,8 @@
 
 package io.iohk.atala.prism.didcomm.didpeer.core
 
-import io.iohk.atala.prism.apollo.base64.base64PadDecoded
-import io.iohk.atala.prism.apollo.base64.base64UrlEncoded
+import io.iohk.atala.prism.didcomm.didpeer.base64.base64PadDecoded
+import io.iohk.atala.prism.didcomm.didpeer.base64.base64UrlEncoded
 import io.iohk.atala.prism.didcomm.didpeer.JSON
 import io.iohk.atala.prism.didcomm.didpeer.OtherService
 import io.iohk.atala.prism.didcomm.didpeer.PeerDID

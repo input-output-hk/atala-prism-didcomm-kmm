@@ -1,6 +1,6 @@
 package io.iohk.atala.prism.didcomm.didpeer.core
 
-import io.iohk.atala.prism.apollo.varint.VarInt
+import io.iohk.atala.prism.didcomm.didpeer.varint.VarInt
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAgreement
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypeAuthentication
 import io.iohk.atala.prism.didcomm.didpeer.VerificationMethodTypePeerDID
