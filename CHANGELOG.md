@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/input-output-hk/atala-prism-didcomm-kmm/compare/v1.1.1...v1.1.2) (2024-03-07)
+
+
+### Bug Fixes
+
+* upgrade gradle & libs and remove Apollo dependency ([#18](https://github.com/input-output-hk/atala-prism-didcomm-kmm/issues/18)) ([eb66631](https://github.com/input-output-hk/atala-prism-didcomm-kmm/commit/eb66631ff95e8822048d7364c7b7ee57137ab021))
+
 ## [1.1.1](https://github.com/input-output-hk/atala-prism-didcomm-kmm/compare/v1.1.0...v1.1.1) (2024-02-26)
 
 
